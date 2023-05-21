@@ -21,11 +21,6 @@ app.get('/products/:pid', (req, res) => {
     res.send(listaProductos.getProductById(idProducto))
 });
 
-app.get('/prueba_queries', (req, res) => {
-    console.log(req.query)
-    res.send(req.query);
-});
-
 app.listen(8080, () => {
     console.log('servidor escuchando en el puerto 8080')
 })
