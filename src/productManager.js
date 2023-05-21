@@ -20,7 +20,6 @@ export class ProductManager {
     }
     getProductById = (idProducto) =>{
         const productoFiltrado = this.productos.filter(e => e.id === idProducto);
-        console.log(productoFiltrado)
         if(productoFiltrado.length === 0) {
             throw new Error("Producto no encontrado");
         }
