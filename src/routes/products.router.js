@@ -8,8 +8,9 @@ router.get('/', (req, res) => {
     let limit = req.query.limit;
     if(!limit) {
         res.send({status : "success", payload : listaProductos.getProducts()})
+    } else {
+        res.send({status : "success", payload : listaProductos.getProductLimit(limit)});
     }
-    res.send({status : "success", payload : listaProductos.getProductLimit(limit)});
 });
 
 router.post('/', (req, res) => {
