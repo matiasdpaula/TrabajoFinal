@@ -33,7 +33,7 @@ td {
     padding: 20px 30px;
     color: white;
 }
-    h1 {
+h2 {
     margin: 0;
     text-align: center;
     height: 40px;
@@ -82,4 +82,11 @@ a:hover {
     width: 100%;
     height: 100%;
     position: absolute;
+}
+@media screen and (min-width: 361px) and (max-width: 900px){
+    .product-container-real {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
 }

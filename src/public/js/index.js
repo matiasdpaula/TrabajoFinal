@@ -1,12 +1,52 @@
 const socket = io();
-const formIngreso = document.getElementById("formIngreso");
-const input = document.getElementsById("title")
+const formIngreso = document.querySelector("#formIngreso");
+const formDelete = document.querySelector("#formDelete");
+const tab = document.getElementById("tab");
 
-formIngreso.addEventListener("submit", (e) => {
+formDelete.addEventListener("submit", (e) => {
+    const inputId = document.querySelector("#inputId").value;
     e.preventDefault();
-    if( input.value ) {
-        socket.emit('chat', input.value);
-        input.value = "";
-    }
+    socket.emit('delete', inputId);
 })
 
+formIngreso.addEventListener("submit", (e) => {
+    const inputTitle = document.querySelector("#title").value;
+    const inputDescription = document.querySelector("#description").value
+    const inputPrice = document.querySelector("#price").value;
+    const inputCategory = document.querySelector("#category").value;
+    const inputCode = document.querySelector("#code").value;
+    const inputStock = document.querySelector("#stock").value;
+    e.preventDefault();
+    const input = { 
+        title : inputTitle,
+        description : inputDescription,
+        price : inputPrice,
+        category : inputCategory,
+        code : inputCode,
+        stock : inputStock
+    }
+    socket.emit('create', input);
+})
+
+const pesoArgentino = new Intl.NumberFormat('es-Ar', {
+    style: 'currency',
+    currency: 'ARS',
+    minimunFractionDigits: 2
+});
+
+socket.on('tabla', data => {
+    console.log(data);
+    tab.innerHTML = '';
+    data.forEach(log=>{
+        tab.innerHTML = tab.innerHTML +
+        `<tr>
+            <td>${log.id}</td>
+            <td>${log.title}</td>
+            <td>${log.description}</td>
+            <td>${pesoArgentino.format(log.price)}</td>
+            <td>${log.category}</td>
+            <td>${log.code}</td>
+            <td>${log.stock}</td>
+        </tr>`;
+    });
+}) 

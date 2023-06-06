@@ -6,7 +6,7 @@ const router = Router();
 const productosListados = listaProductos.getProducts();
 
 router.get('/realtimeproducts', (req, res) => {
-    res.render('realTimeProducts', {title : 'Lista de Productos en Tiempo Real' , style:'styles.css', productosListados})
+    res.render('realTimeProducts', {title : 'Lista de Productos en Tiempo Real' , style:'styles.css'})
 });
 
 router.get('/' , (req , res) => {

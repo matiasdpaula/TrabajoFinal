@@ -7,7 +7,7 @@ import handlebars from 'express-handlebars';
 import { Server } from 'socket.io';
 import { ProductManager } from './productManager.js';
 
-const listaProductos = new ProductManager();
+const listaProductos = new ProductManager;
 const productosListados = listaProductos.getProducts();
 const app = express();
 const httpServer = app.listen(8080,() => console.log('servidor escuchando en el puerto 8080'));
@@ -23,8 +23,23 @@ app.use('/api/carts', cartsRouter);
 app.use('/',viewsRouter);
 
 socketServer.on('connection', socket=> {
-    console.log("Nuevo cliente conectado")
-    socket.on("chat", (msg) => {
-        console.log('Mensaje: '+msg)
+    console.log("Nuevo cliente conectado");
+    socket.emit('tabla', productosListados);
+    socket.on('delete', data => {
+        let dataToNumber = Number(data);
+        try {
+            listaProductos.deleteProduct(dataToNumber);
+        } catch (error){
+            console.log(error)
+        }
+        socket.emit('tabla', productosListados);
+    })
+    socket.on('create', data => {
+        try {
+            listaProductos.addProduct(data);
+        } catch (error){
+            console.log(error)
+        }
+        socket.emit('tabla', productosListados);
     })
 })
