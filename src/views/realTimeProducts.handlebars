@@ -1,0 +1,43 @@
+<div class="product-container-real">
+    <div>
+        <table class="tab">
+            <thead>
+                <tr>
+                    <td>Id</td>
+                    <td>Título</td>
+                    <td>Descripción</td>
+                    <td>Precio</td>
+                    <td>Categoría</td>
+                    <td>Código</td>
+                    <td>Stock</td>
+                </tr>
+            </thead>
+            <tbody id="tab">
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <div class="logdiv">
+            <section class="form-login">
+                <h1>Ingresar un producto</h1>
+                <form action="" id="formIngreso">
+                    <input class="entrada" type="text" name="title" id="title" value="" placeholder="Título">
+                    <button class="enviar" type="submit" name="" id="ingresoProducto" value="Ingresar" placeholder="">
+                </form>
+            </section>
+        </div>
+    </div>
+        <div>
+        <div class="logdiv">
+            <section class="form-login">
+                <h1>Borrar un producto</h1>
+                <form action="" id="formDelete">
+                    <input class="entrada" type="text" name="id" value="" placeholder="ID">
+                    <input class="enviar" type="submit" name="" value="Borrar" placeholder="">
+                </form>
+            </section>
+        </div>
+    </div>
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/index.js"></script>
