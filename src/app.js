@@ -8,7 +8,6 @@ import { Server } from 'socket.io';
 import { ProductManager } from './productManager.js';
 
 const listaProductos = new ProductManager;
-const productosListados = listaProductos.getProducts();
 const app = express();
 const httpServer = app.listen(8080,() => console.log('servidor escuchando en el puerto 8080'));
 const socketServer = new Server(httpServer)
@@ -24,7 +23,7 @@ app.use('/',viewsRouter);
 
 socketServer.on('connection', socket=> {
     console.log("Nuevo cliente conectado");
-    socket.emit('tabla', productosListados);
+    socket.emit('tabla', listaProductos.getProducts());
     socket.on('delete', data => {
         let dataToNumber = Number(data);
         try {
@@ -32,7 +31,7 @@ socketServer.on('connection', socket=> {
         } catch (error){
             console.log(error)
         }
-        socket.emit('tabla', productosListados);
+        socket.emit('tabla', listaProductos.getProducts());
     })
     socket.on('create', data => {
         try {
@@ -40,6 +39,6 @@ socketServer.on('connection', socket=> {
         } catch (error){
             console.log(error)
         }
-        socket.emit('tabla', productosListados);
+        socket.emit('tabla', listaProductos.getProducts());
     })
 })

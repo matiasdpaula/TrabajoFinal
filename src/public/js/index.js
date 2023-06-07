@@ -1,7 +1,6 @@
 const socket = io();
 const formIngreso = document.querySelector("#formIngreso");
 const formDelete = document.querySelector("#formDelete");
-const tab = document.getElementById("tab");
 
 formDelete.addEventListener("submit", (e) => {
     const inputId = document.querySelector("#inputId").value;
@@ -35,7 +34,7 @@ const pesoArgentino = new Intl.NumberFormat('es-Ar', {
 });
 
 socket.on('tabla', data => {
-    console.log(data);
+    const tab = document.getElementById("tab");
     tab.innerHTML = '';
     data.forEach(log=>{
         tab.innerHTML = tab.innerHTML +

@@ -44,6 +44,17 @@
 		"id": 4
 	},
 	{
+		"title": "Producto prueba5",
+		"description": "Este es un producto prueba",
+		"price": 5360,
+		"category": "edesw",
+		"status": true,
+		"thumbnails": [],
+		"code": "rgy567",
+		"stock": 4,
+		"id": 5
+	},
+	{
 		"title": "Producto prueba6",
 		"description": "Este es un producto prueba",
 		"price": 5360,

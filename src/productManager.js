@@ -15,7 +15,13 @@ export class ProductManager {
         return [];
     }
     addProduct = (newProduct) => {
-        if (this.validarCodigo(newProduct.code) && this.validarCampos(newProduct.title , newProduct.description , newProduct.price , newProduct.category , newProduct.code , newProduct.stock)) {
+        if (this.validarCodigo(newProduct.code) && this.validarCampos(
+            newProduct.title,
+            newProduct.description,
+            newProduct.price,
+            newProduct.category,
+            newProduct.code,
+            newProduct.stock)) {
             const producto = {
                 title : newProduct.title,
                 description : newProduct.description,
@@ -35,7 +41,6 @@ export class ProductManager {
             writeFileSync(this.path,JSON.stringify(this.productos,null,'\t'));
             return producto;
         }
-        return
     }
     getProductLimit = (limit) => {
         const productoSlice = this.productos.slice(0 , limit)
@@ -71,10 +76,12 @@ export class ProductManager {
     }
     // Validaciones
     validarCampos = (title , description , price , category , code , stock) => {
-        if ((this.validarTitulo(title)) && (this.validarDescripcion(description)) && (this.validarPrecio(price)) && (this.validarCategoria(category)) && (this.validarIngresoCodigo(code)) && (this.validarStock(stock))) {
-            return true;
-        }
-        return false;
+        return this.validarTitulo(title)
+            && this.validarDescripcion(description) 
+            && this.validarPrecio(price) 
+            && this.validarCategoria(category) 
+            && this.validarIngresoCodigo(code) 
+            && this.validarStock(stock);
     }
     validarTitulo = (title) => {
         if (!title) {
