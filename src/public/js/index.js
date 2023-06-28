@@ -1,37 +1,51 @@
 const socket = io();
-let user;
-let chatBox = document.getElementById("chatBox");
+const formIngreso = document.querySelector("#formIngreso");
+const formDelete = document.querySelector("#formDelete");
 
-Swal.fire({
-    title:"Ingresa un Email",
-    input:"email",
-    text:"Ingresa un email para identificarte en el chat",
-    inputValidator: (value) => {
-        return !value && 'Ingresa un mail para poder continuar'
-    },
-    allowOutsideClick:false
-}).then(result => {
-    user=result.value
+formDelete.addEventListener("submit", (e) => {
+    const inputId = document.querySelector("#inputId").value;
+    e.preventDefault();
+    socket.emit('delete', inputId);
+})
+
+formIngreso.addEventListener("submit", (e) => {
+    const inputTitle = document.querySelector("#title").value;
+    const inputDescription = document.querySelector("#description").value
+    const inputPrice = document.querySelector("#price").value;
+    const inputCategory = document.querySelector("#category").value;
+    const inputCode = document.querySelector("#code").value;
+    const inputStock = document.querySelector("#stock").value;
+    e.preventDefault();
+    const input = { 
+        title : inputTitle,
+        description : inputDescription,
+        price : inputPrice,
+        category : inputCategory,
+        code : inputCode,
+        stock : inputStock
+    }
+    socket.emit('create', input);
+})
+
+const pesoArgentino = new Intl.NumberFormat('es-Ar', {
+    style: 'currency',
+    currency: 'ARS',
+    minimunFractionDigits: 2
 });
 
-chatBox.addEventListener("keyup" , evt =>{
-    if(evt.key === "Enter") {
-        if(chatBox.value.trim().length>0) {
-            socket.emit("message", {user:user , message:chatBox.value});
-            chatBox.value="";
-        }
-    }
-})
-
-socket.on('messageLogs', data =>{
-    let log = document.getElementById('messageLogs');
-    let messages = "";
-    data.forEach(message => {
-        messages = messages+`${message.user} dice: ${message.message}</br>`
-    })
-    log.innerHTML = messages;
-})
-
-
-
-
+socket.on('tabla', data => {
+    const tab = document.getElementById("tab");
+    tab.innerHTML = '';
+    data.forEach(log=>{
+        tab.innerHTML = tab.innerHTML +
+        `<tr>
+            <td>${log._id}</td>
+            <td>${log.title}</td>
+            <td>${log.description}</td>
+            <td>${pesoArgentino.format(log.price)}</td>
+            <td>${log.category}</td>
+            <td>${log.code}</td>
+            <td>${log.stock}</td>
+        </tr>`;
+    });
+}) 
