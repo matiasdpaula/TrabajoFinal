@@ -1,5 +1,5 @@
 import { existsSync, readFileSync, writeFileSync} from 'fs';
-import { ProductManager } from './productManager.js';
+import { ProductManager } from './productManagerFileSystem.js';
 
 const listaProductos = new ProductManager();
 
