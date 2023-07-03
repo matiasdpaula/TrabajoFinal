@@ -40,7 +40,7 @@ router.get('/:pid', async (req, res) => {
 
 router.put('/:pid', async (req, res) => {
     const idProducto = req.params.pid;
-    const dataToUpdate = req.body
+    const dataToUpdate = req.body;
     try {
         await listaProductos.updateProduct(idProducto, dataToUpdate)
         res.send({status : "success", payload : "Producto actualizado correctamente"});

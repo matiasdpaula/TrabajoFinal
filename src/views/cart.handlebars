@@ -1,0 +1,20 @@
+<div class="product-container">
+    <table class="tab">
+        <thead>
+            <tr>
+                <td>Título</td>
+                <td>Descripción</td>
+                <td>Precio</td>
+                <td>Stock</td>
+            </tr>
+        </thead>
+        {{#each carrito}}
+        <tbody>
+            <td>{{this.product.title}}</td>
+            <td>{{this.product.description}}</td>
+            <td>{{this.product.price}}</td>
+            <td>{{this.product.stock}}</td>
+        </tbody>
+        {{/each}}
+    </table>
+</div>
