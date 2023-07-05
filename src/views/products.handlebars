@@ -1,0 +1,32 @@
+<div class="product-container-real">
+<table class="tab">
+        <thead>
+            <tr>
+                <td>Título</td>
+                <td>Descripción</td>
+                <td>Precio</td>
+                <td>Categoría</td>
+                <td>Stock</td>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each productos}}
+                <tr>
+                    <td>{{this.title}}</td>
+                    <td>{{this.description}}</td>
+                    <td>{{this.price}}</td>
+                    <td>{{this.category}}</td>
+                    <td>{{this.stock}}</td>
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    <div>
+        {{#if hasPrevPage}}
+            <a href="/products?limit={{limit}}&page={{prevPage}}"><button class="boton">Anterior</button></a>
+        {{/if}}
+        {{#if hasNextPage}}
+            <a href="/products?limit={{limit}}&page={{nextPage}}"><button class="boton">Siguiente</button></a>
+        {{/if}}
+    </div>
+</div>

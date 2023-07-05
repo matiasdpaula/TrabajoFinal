@@ -1,7 +1,4 @@
 import { cartModel } from '../models/cart.model.js';
-import ProductManagerDB from './productManagerDB.js';
-
-const listaProductos = new ProductManagerDB();
 
 export class CartManagerDB {
     cartsModel
@@ -11,7 +8,6 @@ export class CartManagerDB {
     // Metodos
     async getCarts() {
         const listaCarts = await this.cartsModel.find();
-        console.log(listaCarts);
         return listaCarts;
     }
     async addCart() {
@@ -60,31 +56,27 @@ export class CartManagerDB {
     }
     async updateProducts(idCart, newProducts) {
         const cartsFiltrado = await this.cartsModel.findOne({_id : idCart});
-        if(cartsFiltrado.products.length === 0){
-            const cartUpdated = await this.cartsModel.updateOne({_id : idCart},{$set:{products:newProducts}})
-            return cartUpdated
-        }
-        const cantidad = newProducts[0].quantity;
-        const idProducto = newProducts[0].product;
-        console.log(idProducto)
-        console.log(cantidad)
-        const cartUpdated = await this.cartsModel.updateOne({_id : idCart , "products.product" : idProducto},{$set:{"products.$.quantity":cantidad}})
-        return cartUpdated;
-    }
-    async addProductToCart(idCart, idProducto) {
-        const productoEncontrado = await listaProductos.getProductById(idProducto);
-        if(!productoEncontrado) {
+        if(!cartsFiltrado){
             throw new Error;
-        }
-        let cartFind = await this.cartsModel.findOne({_id : idCart, "products.product" : idProducto});
+        } 
+        const productosActualizados = newProducts.forEach(products => {this.actualizacion(idCart, products)})
+        return productosActualizados;
+    }
+    async actualizacion(idCart, products) {
+        console.log(products.product)
+        const productosActualizados = await this.cartsModel.updateOne({_id : idCart},{$set: {products: {product:products.product, quantity: products.quantity}}},{upsert:true})
+        return productosActualizados;
+    }
+    async addProductToCart(idCart, producto) {
+        let cartFind = await this.cartsModel.findOne({_id : idCart, "products.product" : producto._id});
         if (!cartFind) {
-            const productAdded = await this.cartsModel.updateOne({_id : idCart},{$push: {products: {product:idProducto, quantity:1}}});
+            const productAdded = await this.cartsModel.updateOne({_id : idCart},{$push: {products: {product:producto, quantity:1}}});
             return productAdded;
         }
         const arrayDeProductos = cartFind.products;
-        const productoAgregado = arrayDeProductos.filter(e => e.product.toString() === idProducto);
+        const productoAgregado = arrayDeProductos.filter(e => e.product.toString() === producto._id.toString());
         const cantidad = productoAgregado[0].quantity;
-        const cartUpdated = await this.cartsModel.updateOne({_id : idCart , "products.product" : idProducto},{$set:{"products.$.quantity":cantidad+1}})
+        const cartUpdated = await this.cartsModel.updateOne({_id : idCart , "products.product" : producto._id},{$set:{"products.$.quantity":cantidad+1}})
         return cartUpdated
     }
 }

@@ -5,13 +5,12 @@ const router = Router();
 const listaProductos = new ProductManagerDB();
 
 router.get('/', async (req, res) => {
-    const limit = req.query.limit;
+    const limit = parseInt(req.query.limit, 10) || 10;
+    const page = parseInt(req.query.page, 10) || 1;
+    const sort = req.query.price;
+    console.log(sort)
     try {
-        if(!limit) {
-            res.send({status : "success", payload : await listaProductos.getProducts()})
-        } else {
-            res.send({status : "success", payload : await listaProductos.getProductLimit(limit)});
-        }
+        res.send({status : "success", payload : await listaProductos.getProducts(limit, page, sort)})
     } catch (error) {
         res.status(404).send({status : "Error", error: "Ningún producto encontrado"})
     }

@@ -1,20 +1,18 @@
 import { Router } from "express";
-import { ProductManager } from "../dao/managers/productManagerFileSystem.js";
-import { CartManagerDB } from "../dao/managers/cartManagerDB.js";
 import { cartModel } from "../dao/models/cart.model.js";
+import ProductManagerDB from "../dao/managers/productManagerDB.js";
+import { ObjectId } from "mongodb";
 
 const router = Router();
-const listaProductos = new ProductManager();
-const listaCarts = new CartManagerDB();
-const productosListados = listaProductos.getProducts();
+const productMng = new ProductManagerDB();
 
-router.get('/realtimeproducts', (req, res) => {
-    res.render('realTimeProducts', {title : 'Lista de Productos en Tiempo Real' , style:'styles.css'})
-});
-
-router.get('/' , (req , res) => {
-    console.log(productosListados)
-    res.render('index', {title : 'Lista de Productos' , style:'styles.css', productosListados})
+router.get('/products', async (req, res) => {
+    const limit = parseInt(req.query.limit, 10) || 10;
+    const page = parseInt(req.query.page, 10) || 1;
+    const sort = req.query.sort;
+    const {docs,hasPrevPage,hasNextPage,nextPage,prevPage} = await productMng.getProducts(limit, page);
+    const productos = docs;
+    res.render('products', {title : 'Productos', style:'styles.css', productos, hasPrevPage, hasNextPage, prevPage, nextPage, limit})
 });
 
 router.get('/chat', (req , res) => {
@@ -23,10 +21,14 @@ router.get('/chat', (req , res) => {
 
 router.get('/:cid', async (req , res) => {
     const idCart = req.params.cid;
-    let carrito = await cartModel.findOne({_id : idCart},{}).populate("products.product");
-    carrito = carrito.products;
+    const carrito = await cartModel.findOne({_id : new ObjectId(idCart)}).populate({
+        path:'products.product',
+        model:'products'
+    });
     console.log(carrito)
-    res.render('cart',{title: 'Carrito', style:'styles.css', carrito})
+    const cartProducts = carrito.toJSON();
+    console.log(cartProducts);
+    res.render('cart',{title: 'Carrito', style:'styles.css', carrito: cartProducts.products})
 })
 
 export default router;

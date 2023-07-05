@@ -6,8 +6,8 @@ class ProductManagerDB {
         this.productsModel = productModel
     }
     // Metodos
-    async getProducts() {
-        const listaProductos = await this.productsModel.find();
+    async getProducts(limit, page) {
+        const listaProductos = await this.productsModel.paginate({},{limit : limit, page : page, lean:true});
         return listaProductos;
     }
     async addProduct (newProduct) {
@@ -92,7 +92,7 @@ class ProductManagerDB {
         throw new Error("Ingrese solo números en el stock")
     }
     async validarCodigo (code) {
-        const productos = await this.getProducts()
+        const productos = await this.productsModel.find({});
         const productCode = productos.findIndex(e => e.code === code)
         if (productCode === -1) {
             return true

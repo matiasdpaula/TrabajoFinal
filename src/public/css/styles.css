@@ -119,3 +119,8 @@ a:hover {
         justify-content: center;
     }
 }
+.boton {
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+}

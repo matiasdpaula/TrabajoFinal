@@ -6,15 +6,19 @@
                 <td>Descripción</td>
                 <td>Precio</td>
                 <td>Stock</td>
+                <td>Cantidad</td>
             </tr>
         </thead>
-        {{#each carrito}}
         <tbody>
-            <td>{{this.product.title}}</td>
-            <td>{{this.product.description}}</td>
-            <td>{{this.product.price}}</td>
-            <td>{{this.product.stock}}</td>
+            {{#each carrito}}
+                <tr>
+                    <td>{{this.product.title}}</td>
+                    <td>{{this.product.description}}</td>
+                    <td>{{this.product.price}}</td>
+                    <td>{{this.product.stock}}</td>
+                    <td>{{this.quantity}}</td>
+                </tr>
+            {{/each}}
         </tbody>
-        {{/each}}
     </table>
 </div>
