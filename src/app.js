@@ -8,14 +8,13 @@ import { Server } from 'socket.io';
 import ProductManagerDB from './dao/managers/productManagerDB.js';
 import mongoose from 'mongoose';
 import { messageModel } from './dao/models/messages.model.js';
+import 'dotenv/config'
 
 const listaProductos = new ProductManagerDB();
-const MONGO = 'mongodb+srv://Tuchix10:uToZBsguHQ9P18sJ@codercluster.1lyicj9.mongodb.net/ecommerce'
 const app = express();
 const httpServer = app.listen(8080,() => console.log('servidor escuchando en el puerto 8080'));
 const socketServer = new Server(httpServer)
-const DBConnection = mongoose.connect(MONGO);
-const modeloMensaje = messageModel;
+const DBConnection = mongoose.connect(process.env.MONGO);
 app.engine('handlebars', handlebars.engine());
 app.set('views', `${__dirname}/views`);
 app.set('view engine', 'handlebars')
@@ -28,36 +27,35 @@ app.use('/',viewsRouter);
 
 socketServer.on('connection', socket=> {
     console.log("Nuevo cliente conectado");
-    async function tableEmiter() {
-        socketServer.emit('tabla', await listaProductos.getProducts())
-    }
-    tableEmiter();
-    async function realTimeProductDeleter(data) {
+    socket.on('delete', async (data) => {
         try {
-            await listaProductos.deleteProduct(data)
+            await listaProductos.deleteProduct(data);
+            socketServer.emit('tabla', await listaProductos.getProducts());
         } catch (error) {
-            console.log(error)
-        } tableEmiter();
-    }
-    async function realTimeProductCreator(data) {
+            console.log(error);
+        }
+    });
+    socket.on('create', async (data) => {
         try {
-            await listaProductos.addProduct(data)
+            await listaProductos.addProduct(data);
+            socketServer.emit('tabla', await listaProductos.getProducts());
         } catch (error) {
-            console.log(error)
-        } tableEmiter();
-    }
-    socket.on('delete', data => {
-        realTimeProductDeleter(data);
-    })
-    socket.on('create', data => {
-        realTimeProductCreator(data);
-    })
-    async function emiter() {
-        socketServer.emit('messageLogs', await modeloMensaje.find({}))
-    }
-    emiter();
-    socket.on('message', (data) => {
-        modeloMensaje.create(data)
-        emiter();
-    })
-})
+            console.log(error);
+        }
+    });
+    socket.on('message', async (data) => {
+        try {
+            await messageModel.create(data);
+            socketServer.emit('messageLogs', await messageModel.find({}));
+        } catch (error) {
+            console.log(error);
+        }
+    });
+});
+
+process.on('SIGINT', () => {
+    mongoose.connection.close(() => {
+        console.log('MongoDB disconnected on app termination');
+        process.exit(0);
+    });
+});

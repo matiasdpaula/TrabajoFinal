@@ -11,6 +11,12 @@ router.post('/', async (req, res) => {
     res.status(201).send({status : "success", payload : 'Carrito creado con exito'})
 });
 
+router.post('/addToCart/:pid', async (req, res) => {
+    const idProducto = req.params.pid;
+    await cartMng.createAndAdd(idProducto);
+    res.status(201).send({status : "success", payload : 'Carrito creado con exito'})
+})
+
 router.get('/:cid', async (req, res) => {
     let idCart = req.params.cid;
     try {
@@ -43,6 +49,7 @@ router.delete('/:cid/product/:pid', async (req, res) => {
         res.status(404).send({status : "Error", error: "Carrito o producto no encontrado"})
     }
 });
+
 router.delete('/:cid', async (req, res) => {
     const idCart = req.params.cid;
     try {

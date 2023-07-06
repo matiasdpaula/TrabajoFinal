@@ -7,26 +7,29 @@
                 <td>Precio</td>
                 <td>Categoría</td>
                 <td>Stock</td>
+                <td></td>
             </tr>
         </thead>
         <tbody>
-            {{#each productos}}
+            {{#each products}}
                 <tr>
                     <td>{{this.title}}</td>
                     <td>{{this.description}}</td>
                     <td>{{this.price}}</td>
                     <td>{{this.category}}</td>
                     <td>{{this.stock}}</td>
+                    <td><button class="addToCartButton" id="{{this._id}}">Agregar al carrito</button></td>
                 </tr>
             {{/each}}
         </tbody>
     </table>
     <div>
         {{#if hasPrevPage}}
-            <a href="/products?limit={{limit}}&page={{prevPage}}"><button class="boton">Anterior</button></a>
+            <a href="/products?query={{query}}&limit={{limit}}&page={{prevPage}}&sort={{sort}}"><button class="boton">Anterior</button></a>
         {{/if}}
         {{#if hasNextPage}}
-            <a href="/products?limit={{limit}}&page={{nextPage}}"><button class="boton">Siguiente</button></a>
+            <a href="/products?query={{query}}&limit={{limit}}&page={{nextPage}}&sort={{sort}}"><button class="boton">Siguiente</button></a>
         {{/if}}
     </div>
 </div>
+<script src="js/product.js"></script>

@@ -14,6 +14,13 @@ export class CartManagerDB {
         const cart = await this.cartsModel.create([{}]);
         return cart;
     }
+    async createAndAdd(idProducto) {
+        const cart = await this.cartsModel.create([{}]);
+        const cartId = cart[0]._id;
+        const nuevoProducto = {product:idProducto,quantity:1}
+        const cartUpdated = await this.cartsModel.updateOne({_id : cartId},{$push:{products:nuevoProducto}})
+        return cartUpdated;
+    }
     async getCartById(idCart) {
         const cartsFiltrado = await this.cartsModel.findOne({_id : idCart}).populate("products.product");
         if(!cartsFiltrado) {
@@ -58,13 +65,23 @@ export class CartManagerDB {
         const cartsFiltrado = await this.cartsModel.findOne({_id : idCart});
         if(!cartsFiltrado){
             throw new Error;
-        } 
+        } else if (cartsFiltrado.products.length === 0) {
+            const productosActualizados = await this.cartsModel.updateOne({_id : idCart},{$push: {products: newProducts}})
+            return productosActualizados;
+        }
         const productosActualizados = newProducts.forEach(products => {this.actualizacion(idCart, products)})
         return productosActualizados;
     }
     async actualizacion(idCart, products) {
-        console.log(products.product)
-        const productosActualizados = await this.cartsModel.updateOne({_id : idCart},{$set: {products: {product:products.product, quantity: products.quantity}}},{upsert:true})
+        const productId = products.product;
+        const productQuantity = products.quantity;
+        const cartsFiltrado = await this.cartsModel.findOne({_id : idCart});
+        const productoEncontrado = cartsFiltrado.products.find(e => e.product.toString() === productId)
+        if (!productoEncontrado) {
+            const productosActualizados = await this.cartsModel.updateOne({_id : idCart},{$push: {products: products}})
+            return productosActualizados;
+        }
+        const productosActualizados = await this.cartsModel.updateOne({_id : idCart, "products.product" : productId},{$set:{"products.$.quantity":productQuantity}});
         return productosActualizados;
     }
     async addProductToCart(idCart, producto) {

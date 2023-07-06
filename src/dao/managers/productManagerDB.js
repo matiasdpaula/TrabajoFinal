@@ -6,8 +6,8 @@ class ProductManagerDB {
         this.productsModel = productModel
     }
     // Metodos
-    async getProducts(limit, page) {
-        const listaProductos = await this.productsModel.paginate({},{limit : limit, page : page, lean:true});
+    async getProducts() {
+        const listaProductos = await this.productsModel.find({},{});
         return listaProductos;
     }
     async addProduct (newProduct) {
