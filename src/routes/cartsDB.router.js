@@ -11,6 +11,14 @@ router.post('/', async (req, res) => {
     res.status(201).send({status : "success", payload : 'Carrito creado con exito'})
 });
 
+router.get('/', async (req, res) => {
+    try {
+        res.status(201).send({status : "success", payload: await cartMng.getCarts()})
+    } catch (error) {
+        res.status(404).send({status : "Error", error: "Error inesperado"})
+    }
+});
+
 router.post('/addToCart/:pid', async (req, res) => {
     const idProducto = req.params.pid;
     await cartMng.createAndAdd(idProducto);
