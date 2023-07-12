@@ -9,20 +9,36 @@ import ProductManagerDB from './dao/managers/productManagerDB.js';
 import mongoose from 'mongoose';
 import { messageModel } from './dao/models/messages.model.js';
 import 'dotenv/config'
+import MongoStore from 'connect-mongo';
+import sessionsRouter from './routes/sessions.router.js';
+import session from 'express-session';
 
 const listaProductos = new ProductManagerDB();
 const app = express();
 const httpServer = app.listen(8080,() => console.log('servidor escuchando en el puerto 8080'));
 const socketServer = new Server(httpServer)
-const DBConnection = mongoose.connect(process.env.MONGO);
+const DBConnection = mongoose.connect(process.env.MONGO, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});
 app.engine('handlebars', handlebars.engine());
 app.set('views', `${__dirname}/views`);
 app.set('view engine', 'handlebars')
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(express.static(__dirname+'/public'))
+app.use(session({
+    store: new MongoStore({
+        mongoUrl: process.env.MONGO,
+        ttl: 3600
+    }),
+    secret: "CoderSecretSHHHHH",
+    resave: false,
+    saveUninitialized: false
+}))
 app.use('/api/products', productRouter);
 app.use('/api/carts', cartsRouter);
+app.use('/api/sessions', sessionsRouter);
 app.use('/',viewsRouter);
 
 socketServer.on('connection', socket=> {
@@ -54,8 +70,4 @@ socketServer.on('connection', socket=> {
 });
 
 process.on('SIGINT', () => {
-    mongoose.connection.close(() => {
-        console.log('MongoDB disconnected on app termination');
-        process.exit(0);
-    });
-});
+    mongoose.connection.close()});

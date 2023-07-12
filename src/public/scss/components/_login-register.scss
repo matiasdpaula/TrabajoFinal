@@ -1,0 +1,181 @@
+.body-login {
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.principal-login {
+    width: 100%;
+    padding: 20px;
+    margin: auto;
+    margin-top: 100px;
+}
+
+.contenedor-general {
+    width: 100%;
+    max-width: 825px;
+    margin: auto;
+    position: relative;
+}
+
+.contenedor-back {
+    width: 100%;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    border-radius: 10px;
+    background-color: rgba(0, 128, 255, 0.5);
+    div {
+    margin: 100px 40px;
+    color: white;
+    transition: all 500ms;
+        p {
+            font-family: Arial, Helvetica, sans-serif;
+            margin-top: 30px;
+            font-size: 16px;
+            font-weight: 300;
+        }
+        button {
+            font-family: Arial, Helvetica, sans-serif;
+            margin-top: 30px;
+            padding: 10px 40px;
+            border: 2px solid #fff;
+            border-radius: 10px;
+            font-size: 14px;
+            background: transparent;
+            font-weight: 600;
+            cursor: pointer;
+            color: white;
+            outline: none;
+            transition: all 300ms;
+        }
+        button:hover{
+            background: #fff;
+            color: #46A2FD;
+        }
+        h3 {
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: 400;
+            font-size: 26px;
+        }
+    }
+}
+
+.contenedor-forms {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 380px;
+    position: relative;
+    top: -185px;
+    left: 10px;
+    transition: left 500ms cubic-bezier(0.175, 0.885, 0.320, 1.275);
+    form {
+        width: 100%;
+        background: white;
+        position: absolute;
+        border-radius: 20px;
+        h2 {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 30px;
+            text-align: center;
+            color: #46A2FD;
+        }
+        input {
+            font-family: Arial, Helvetica, sans-serif;
+            width: 100%;
+            margin-top: 20px;
+            padding: 10px;
+            border: none;
+            background: #F2F2F2;
+            font-size: 16px;
+            outline: none;
+        }
+        button {
+            font-family: Arial, Helvetica, sans-serif;
+            padding: 10px 40px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            background: #262626;
+            font-weight: 600;
+            cursor: pointer;
+            color: white;
+            outline: none;
+        }
+        p {
+            color: #fff;
+            text-align: center;
+            margin-top: 10px;
+        }
+    }
+}
+
+#sendReg {
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 10px 40px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    background: #262626;
+    font-weight: 600;
+    cursor: pointer;
+    color: white;
+    outline: none;
+}
+
+.colored-toast.swal2-icon-success {
+    background-color: #a5dc86 !important;
+}
+
+.colored-toast.swal2-icon-error {
+    background-color: #f27474 !important;
+}
+
+.colored-toast.swal2-icon-warning {
+    background-color: #f8bb86 !important;
+}
+
+.colored-toast.swal2-icon-info {
+    background-color: #3fc3ee !important;
+}
+
+.colored-toast.swal2-icon-question {
+    background-color: #87adbd !important;
+}
+
+.colored-toast .swal2-title {
+    color: white;
+}
+
+.colored-toast .swal2-close {
+    color: white;
+}
+
+.colored-toast .swal2-html-container {
+    color: white;
+}
+
+.form-login{
+    padding: 80px 20px;
+    opacity: 1;
+    display: block;
+}
+.form-registro{
+    padding: 20px;
+    display: none;
+}
+
+.errores {
+    color: white;
+    text-align: center;
+    display: none;
+    background-color: #a00000;
+}
+
+.registro-exitoso {
+    display: none;
+    background-color: #004e04;
+}

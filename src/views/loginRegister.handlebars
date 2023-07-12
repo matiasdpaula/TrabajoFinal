@@ -1,0 +1,38 @@
+<section class="principal-login">
+    <div class="contenedor-general">
+        <div class="contenedor-back">
+            <div class="contenedor-back-login">
+                <h3>¿Ya tienes una cuenta?</h3>
+                <p>Inicia sesión para acceder a la plataforma</p>
+                <button id="goLog">Iniciar Sesión</button>
+            </div>
+            <div class="contenedor-back-registro">
+                <h3>¿Aún no tienes una cuenta?</h3>
+                <p>Regístrate para acceder a la plataforma</p>
+                <button id="goReg">Regístrarse</button>
+            </div>
+        </div>
+        <div class="contenedor-forms">
+            <form class="form-login">
+                <h2>Iniciar sesión</h2>
+                <input type="text" id="emailLog" name="email" placeholder="Correo Electrónico">
+                <input type="password" id="passLog" name="password" placeholder="Contraseña">
+                <input type="submit" id="sendReg">
+            </form>
+            <form class="form-registro">
+                <h2>Regístrarse</h2>
+                <input type="text" id="nombreReg" name="first_name" placeholder="Nombre">
+                <input type="text" id="apellidoReg" name="last_name" placeholder="Apellido">
+                <input type="text" id="edadReg" name="age" placeholder="Edad">
+                <input type="email" id="mailReg" name="email" placeholder="Correo electrónico">
+                <input type="email" id="cmailReg" placeholder="Confirmar correo electrónico">
+                <input type="password" id="passReg" name="password" placeholder="Contraseña">
+                <input type="password" id="cpassReg" placeholder="Confirmar contraseña">
+                <input type="submit" id="sendReg">
+            </form>
+        </div>
+    </div>
+</section>
+<script src=" https://cdn.jsdelivr.net/npm/sweetalert2@11.7.16/dist/sweetalert2.all.min.js "></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script src="js/loginRegister.js"></script>

@@ -1,0 +1,158 @@
+* {
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+body {
+    background-color: #044896;
+}
+h1 {
+    color: white;
+    margin: 10px 0px 20px 0px;
+    text-align: center;
+    font-size: 25px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.chat-container {
+    display: flex;
+    justify-content: space-around;
+    p {
+        height: 40px;
+        text-align: center;
+        border-bottom: 1px solid;
+    }
+}
+br {
+    margin-bottom: 5px;
+}
+input {
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+}
+#messageLogs {
+    padding: 10px;
+    border-radius: 15px;
+    font-size: 15px;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: white;
+}
+.product-container {
+    display: flex;
+    justify-content: center;
+}
+.product-container-real {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+.tab {
+    padding: 10px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.795);
+    border-radius: 10px;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 25px;
+}
+td {
+    border-bottom: solid 1px white;
+}
+.form-login {
+    width: 400px;
+    background: #255c99;
+    margin: auto;
+    border-radius: 10px;
+    box-shadow: 7px 13px 37px #262626;
+    padding: 20px 30px;
+    color: white;
+}
+h3 {
+    margin: 0;
+    text-align: center;
+    height: 40px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid;
+    font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
+a:hover {
+    text-decoration: underline;
+}
+.entrada {
+    width: 100%;
+    border: 1px solid #262626;
+    margin-bottom: 15px;
+    padding: 11px 10px;
+    background: #262626;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+}
+.enviar {
+    width: 100%;
+    height: 40px;
+    background: #7EA3CC;
+    border: none;
+    color: white;
+    margin-bottom: 16px;
+}
+.enviar:hover {
+    text-decoration: underline;
+    background-color: #434343;
+}
+.log {
+    background-color: white;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+@media screen and (min-width: 361px) and (max-width: 900px){
+    .product-container-real {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+}
+.boton {
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+}
+
+.titulo {
+    display: flex;
+    justify-content: space-around;
+    color: white;
+    font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    align-items: center;
+}
+
+.quit-button {
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 10px 40px;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    background: #262626;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    outline: none;
+}
+
+.container-perfil {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    font-size: 25px;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
