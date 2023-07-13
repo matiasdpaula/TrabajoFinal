@@ -236,7 +236,7 @@ formLogin.addEventListener('submit', e => {
             }
         }).then(result=>{
             if(result.status===200){
-                return window.location.replace('/perfil');
+                return window.location.replace('/products');
             } else {
                 Toast.fire({
                     icon: 'error',
