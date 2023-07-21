@@ -12,6 +12,8 @@ import 'dotenv/config'
 import MongoStore from 'connect-mongo';
 import sessionsRouter from './routes/sessions.router.js';
 import session from 'express-session';
+import passport from 'passport';
+import initializePassport from './config/passport.config.js';
 
 const listaProductos = new ProductManagerDB();
 const app = express();
@@ -36,6 +38,9 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }))
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
 app.use('/api/products', productRouter);
 app.use('/api/carts', cartsRouter);
 app.use('/api/sessions', sessionsRouter);

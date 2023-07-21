@@ -138,8 +138,8 @@ function validarNumeros(edadReg) {
 
 // Inputs
 
-function validarIngresos(nameReg , apellidoReg , edadReg , mailReg , cmailReg , passReg , cpassReg) {
-    if (nameReg == "" || apellidoReg == "" || edadReg == "" || mailReg == "" || cmailReg == "" || passReg == "" || cpassReg == "") {
+function validarIngresos(nameReg , edadReg , mailReg , cmailReg , passReg , cpassReg) {
+    if (nameReg == "" || edadReg == "" || mailReg == "" || cmailReg == "" || passReg == "" || cpassReg == "") {
         Toast.fire({
             icon: 'error',
             title: 'Llene todos los campos'
@@ -151,8 +151,8 @@ function validarIngresos(nameReg , apellidoReg , edadReg , mailReg , cmailReg , 
 
 // Validaciones en conjunto
 
-function validaciones(nameReg , apellidoReg , edadReg , mailReg , cmailReg , passReg , cpassReg) {
-    if ((validarMails(mailReg , cmailReg)) && (validarNumeros(edadReg)) && (validarPasswords(passReg , cpassReg)) && (validarIngresos(nameReg , apellidoReg , edadReg , mailReg , cmailReg , passReg , cpassReg))) {
+function validaciones(nameReg , edadReg , mailReg , cmailReg , passReg , cpassReg) {
+    if ((validarMails(mailReg , cmailReg)) && (validarNumeros(edadReg)) && (validarPasswords(passReg , cpassReg)) && (validarIngresos(nameReg , edadReg , mailReg , cmailReg , passReg , cpassReg))) {
         return true
     }
     return false
@@ -166,13 +166,12 @@ formRegister.addEventListener('submit', e => {
     e.preventDefault();
     let nombre = removeAccents(document.getElementById("nombreReg").value);
     let nameReg = nombre.toLowerCase();
-    const apellidoReg = document.getElementById("apellidoReg").value;
     const edadReg = document.getElementById("edadReg").value;
     const mailReg = document.getElementById("mailReg").value;
     const cmailReg = document.getElementById("cmailReg").value;
     const passReg = document.getElementById("passReg").value;
     const cpassReg = document.getElementById("cpassReg").value;
-    if (validaciones(nameReg , apellidoReg , edadReg , mailReg , cmailReg , passReg , cpassReg)) {
+    if (validaciones(nameReg , edadReg , mailReg , cmailReg , passReg , cpassReg)) {
     const data = new FormData(formRegister);
     const obj = {};
     data.forEach((value,key)=>obj[key]=value);
@@ -224,7 +223,27 @@ formLogin.addEventListener('submit', e => {
     e.preventDefault();
     const emailLog = document.getElementById("emailLog").value;
     const passLog = document.getElementById("passLog").value;
-    if (validacionLogin(emailLog, passLog)) {
+    if (emailLog === "adminCoder@coder.com" && passLog === "adminCod3r123") {
+        const data = new FormData(formLogin);
+        const obj = {};
+        data.forEach((value,key)=>obj[key]=value);
+        fetch('/api/sessions/loginAdmin',{
+            method:'POST',
+            body:JSON.stringify(obj),
+            headers:{
+                'Content-Type':'application/json'
+            }
+        }).then(result=>{
+            if(result.status===200){
+                return window.location.replace('/products');
+            } else {
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Usuario no encontrado'
+                })
+            }
+        })
+    } else if (validacionLogin(emailLog, passLog)) {
         const data = new FormData(formLogin);
         const obj = {};
         data.forEach((value,key)=>obj[key]=value);

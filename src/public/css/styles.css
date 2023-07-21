@@ -163,6 +163,12 @@
   opacity: 1;
   display: block;
 }
+.form-login a {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #262626;
+  border-radius: 10px;
+  padding: 5px;
+}
 
 .form-registro {
   padding: 20px;

@@ -36,7 +36,7 @@ router.get("/products", privateAccess, async (req, res) => {
         limit,
         query,
         sort,
-        user: req.session.user,
+        user : req.session.user
         });
     });
 });
