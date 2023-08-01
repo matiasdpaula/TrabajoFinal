@@ -3,6 +3,9 @@ import local from 'passport-local';
 import userService from '../dao/models/user.model.js';
 import { createHash , isValidPassword } from "../utils.js";
 import GitHubStrategy from 'passport-github2';
+import { CartManagerDB } from "../dao/managers/cartManagerDB.js";
+
+const cartMng = new CartManagerDB;
 
 const LocalStrategy = local.Strategy;
 const initializePassport = () => {
@@ -10,15 +13,19 @@ const initializePassport = () => {
         usernameField: 'email',
         passReqToCallback: true,
     }, async (req , username , password , done) => {
-        const {name , email, age} = req.body;
+        const {first_name, last_name, email, age} = req.body;
         try {
             const user = await userService.findOne({email : username});
             if(user) return done(null, false, {message: "User already exists"});
+            let carrito = await cartMng.addCart();
+            carrito = carrito[0];
             const newUser = {
-                name,
+                first_name,
+                last_name,
                 email,
                 age,
-                password:createHash(password)
+                password:createHash(password),
+                cart: carrito._id
             }
             const result = await userService.create(newUser);
             return done(null , result)
@@ -47,11 +54,14 @@ const initializePassport = () => {
         try {
             let user = await userService.findOne({ email: profile._json.email });
             if (user) return done(null, user);
+            let carrito = await cartMng.addCart();
+            carrito = carrito[0];
             const newUser = {
-                name: profile._json.name,
+                first_name: profile._json.name,
                 email: profile._json.email,
                 age: 18,
                 password: '',
+                cart: carrito._id
             }
             user = await userService.create(newUser);
             return done(null, user);

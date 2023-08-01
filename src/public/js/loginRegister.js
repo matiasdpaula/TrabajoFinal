@@ -138,8 +138,8 @@ function validarNumeros(edadReg) {
 
 // Inputs
 
-function validarIngresos(nameReg , edadReg , mailReg , cmailReg , passReg , cpassReg) {
-    if (nameReg == "" || edadReg == "" || mailReg == "" || cmailReg == "" || passReg == "" || cpassReg == "") {
+function validarIngresos(nameReg, apellidoReg, edadReg, mailReg, cmailReg, passReg, cpassReg) {
+    if (nameReg == "" || apellidoReg == "" || edadReg == "" || mailReg == "" || cmailReg == "" || passReg == "" || cpassReg == "") {
         Toast.fire({
             icon: 'error',
             title: 'Llene todos los campos'
@@ -151,8 +151,8 @@ function validarIngresos(nameReg , edadReg , mailReg , cmailReg , passReg , cpas
 
 // Validaciones en conjunto
 
-function validaciones(nameReg , edadReg , mailReg , cmailReg , passReg , cpassReg) {
-    if ((validarMails(mailReg , cmailReg)) && (validarNumeros(edadReg)) && (validarPasswords(passReg , cpassReg)) && (validarIngresos(nameReg , edadReg , mailReg , cmailReg , passReg , cpassReg))) {
+function validaciones(nameReg, apellidoReg, edadReg, mailReg, cmailReg, passReg, cpassReg) {
+    if ((validarMails(mailReg , cmailReg)) && (validarNumeros(edadReg)) && (validarPasswords(passReg , cpassReg)) && (validarIngresos(nameReg, apellidoReg, edadReg, mailReg, cmailReg, passReg, cpassReg))) {
         return true
     }
     return false
@@ -166,12 +166,14 @@ formRegister.addEventListener('submit', e => {
     e.preventDefault();
     let nombre = removeAccents(document.getElementById("nombreReg").value);
     let nameReg = nombre.toLowerCase();
+    let apellido = removeAccents(document.getElementById("apellidoReg").value);
+    let apellidoReg = apellido.toLowerCase();
     const edadReg = document.getElementById("edadReg").value;
     const mailReg = document.getElementById("mailReg").value;
     const cmailReg = document.getElementById("cmailReg").value;
     const passReg = document.getElementById("passReg").value;
     const cpassReg = document.getElementById("cpassReg").value;
-    if (validaciones(nameReg , edadReg , mailReg , cmailReg , passReg , cpassReg)) {
+    if (validaciones(nameReg, apellidoReg, edadReg, mailReg, cmailReg, passReg, cpassReg)) {
     const data = new FormData(formRegister);
     const obj = {};
     data.forEach((value,key)=>obj[key]=value);

@@ -74,5 +74,3 @@ socketServer.on('connection', socket=> {
     });
 });
 
-process.on('SIGINT', () => {
-    mongoose.connection.close()});

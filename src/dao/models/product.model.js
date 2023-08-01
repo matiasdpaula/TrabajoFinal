@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import mongoosePaginate from 'mongoose-paginate-v2';
-import { ObjectId } from "mongodb";
 
 const productCollection = 'products'
 
