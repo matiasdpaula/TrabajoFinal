@@ -1,11 +1,11 @@
 import express from 'express';
-import productRouter from './routes/productDB.router.js';
-import cartsRouter from './routes/cartsDB.router.js';
+import productRouter from './routes/product.router.js';
+import cartsRouter from './routes/carts.router.js';
 import __dirname from './utils.js';
 import viewsRouter from './routes/views.router.js'
 import handlebars from 'express-handlebars';
 import { Server } from 'socket.io';
-import ProductManagerDB from './dao/managers/productManagerDB.js';
+import ProductManager from './dao/managers/productManager.js';
 import mongoose from 'mongoose';
 import { messageModel } from './dao/models/messages.model.js';
 import 'dotenv/config'
@@ -15,7 +15,7 @@ import session from 'express-session';
 import passport from 'passport';
 import initializePassport from './config/passport.config.js';
 
-const listaProductos = new ProductManagerDB();
+const listaProductos = new ProductManager();
 const app = express();
 const httpServer = app.listen(8080,() => console.log('servidor escuchando en el puerto 8080'));
 const socketServer = new Server(httpServer)

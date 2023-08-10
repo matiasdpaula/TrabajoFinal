@@ -1,6 +1,6 @@
 import { productModel } from "../models/product.model.js";
 
-class ProductManagerDB {
+class ProductManager {
     productsModel
     constructor() {
         this.productsModel = productModel
@@ -101,4 +101,4 @@ class ProductManagerDB {
     }
 }
 
-export default ProductManagerDB;
+export default ProductManager;

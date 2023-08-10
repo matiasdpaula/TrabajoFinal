@@ -1,6 +1,9 @@
 import { cartModel } from '../models/cart.model.js';
+import ProductManager from './productManager.js';
 
-export class CartManagerDB {
+const productMng = new ProductManager();
+
+export class CartManager {
     cartsModel
     constructor () {
         this.cartsModel = cartModel;
@@ -17,8 +20,8 @@ export class CartManagerDB {
     async createAndAdd(idProducto) {
         const cart = await this.cartsModel.create([{}]);
         const cartId = cart[0]._id;
-        const nuevoProducto = {product:idProducto,quantity:1}
-        const cartUpdated = await this.cartsModel.updateOne({_id : cartId},{$push:{products:nuevoProducto}})
+        const nuevoProducto = {product : idProducto , quantity : 1}
+        const cartUpdated = await this.cartsModel.updateOne({_id : cartId},{$push : { products : nuevoProducto }})
         return cartUpdated;
     }
     async getCartById(idCart) {
@@ -33,7 +36,7 @@ export class CartManagerDB {
         if(!cartsFiltrado) {
             throw new Error;
         }
-        const productoPorBorrar = cartsFiltrado.products.find(e => e.product === idProducto)
+        const productoPorBorrar = cartsFiltrado.products.find(e => e.product.toString() === idProducto)
         if (!productoPorBorrar) {
             throw new Error;
         }
@@ -51,7 +54,7 @@ export class CartManagerDB {
     }
     async updateProduct(idCart, idProducto, quantity) {
         const cartsFiltrado = await this.cartsModel.findOne({_id : idCart});
-        const productoPorBorrar = cartsFiltrado.products.find(e => e.product === idProducto)
+        const productoPorBorrar = cartsFiltrado.products.find(e => e.product.toString() === idProducto)
         if(!cartsFiltrado || !productoPorBorrar) {
             throw new Error;
         } else if (!isNaN(parseInt(quantity))) {
@@ -84,7 +87,8 @@ export class CartManagerDB {
         const productosActualizados = await this.cartsModel.updateOne({_id : idCart, "products.product" : productId},{$set:{"products.$.quantity":productQuantity}});
         return productosActualizados;
     }
-    async addProductToCart(idCart, producto) {
+    async addProductToCart(idCart, idProducto) {
+        const producto = await productMng.getProductById(idProducto)
         let cartFind = await this.cartsModel.findOne({_id : idCart, "products.product" : producto._id});
         if (!cartFind) {
             const productAdded = await this.cartsModel.updateOne({_id : idCart},{$push: {products: {product:producto, quantity:1}}});

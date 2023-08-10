@@ -3,9 +3,9 @@ import local from 'passport-local';
 import userService from '../dao/models/user.model.js';
 import { createHash , isValidPassword } from "../utils.js";
 import GitHubStrategy from 'passport-github2';
-import { CartManagerDB } from "../dao/managers/cartManagerDB.js";
+import { CartManager } from "../dao/managers/cartManager.js";
 
-const cartMng = new CartManagerDB;
+const cartMng = new CartManager;
 
 const LocalStrategy = local.Strategy;
 const initializePassport = () => {
