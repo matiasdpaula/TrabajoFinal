@@ -18,7 +18,7 @@ import initializePassport from './config/passport.config.js';
 
 const listaProductos = new ProductManager();
 const app = express();
-const httpServer = app.listen(8080,() => console.log('servidor escuchando en el puerto 8080'));
+const httpServer = app.listen(process.env.PORT,() => console.log(`servidor escuchando en el puerto ${process.env.PORT}`));
 const socketServer = new Server(httpServer)
 const DBConnection = mongoose.connect(process.env.MONGO, {
     useNewUrlParser: true,
