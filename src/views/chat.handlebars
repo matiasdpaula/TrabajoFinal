@@ -1,9 +1,11 @@
 <div>
     <h1>Bienvenido al chat</h1>
     <div class="chat-container">
+        {{#unless (isAdmin user.role)}}
         <div>
             <input id="chatBox" type="text" placeholder="Ingresa tu mensaje">
         </div>
+        {{/unless}}
         <div>
             <p id="messageLogs"></p>
         </div>

@@ -225,27 +225,7 @@ formLogin.addEventListener('submit', e => {
     e.preventDefault();
     const emailLog = document.getElementById("emailLog").value;
     const passLog = document.getElementById("passLog").value;
-    if (emailLog === "adminCoder@coder.com" && passLog === "adminCod3r123") {
-        const data = new FormData(formLogin);
-        const obj = {};
-        data.forEach((value,key)=>obj[key]=value);
-        fetch('/api/sessions/loginAdmin',{
-            method:'POST',
-            body:JSON.stringify(obj),
-            headers:{
-                'Content-Type':'application/json'
-            }
-        }).then(result=>{
-            if(result.status===200){
-                return window.location.replace('/products');
-            } else {
-                Toast.fire({
-                    icon: 'error',
-                    title: 'Usuario no encontrado'
-                })
-            }
-        })
-    } else if (validacionLogin(emailLog, passLog)) {
+    if (validacionLogin(emailLog, passLog)) {
         const data = new FormData(formLogin);
         const obj = {};
         data.forEach((value,key)=>obj[key]=value);

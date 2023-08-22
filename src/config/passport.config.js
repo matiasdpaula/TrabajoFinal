@@ -35,6 +35,16 @@ const initializePassport = () => {
     }));
     passport.use('login', new LocalStrategy({usernameField:'email'}, async (email , password , done) => {
         try {
+            if(email === "adminCoder@coder.com" && password === "adminCod3r123") {
+                const user = {
+                    _id : "1",
+                    first_name: "Administrador",
+                    email: "adminCoder@coder.com",
+                    age: "Indeterminado",
+                    role: "Admin"
+                }
+                return done (null , user);
+            }
             const user = await userService.findOne({email:email})
             if(!user) {
                 console.log("User doesn't exist")
@@ -74,6 +84,16 @@ const initializePassport = () => {
     });
     passport.deserializeUser(async (_id, done) => {
         try {
+            if (_id === "1") {
+                const user = {
+                    _id : "1",
+                    first_name: "Administrador",
+                    email: "adminCoder@coder.com",
+                    age: "Indeterminado",
+                    role: "Admin"
+                }
+                return done(null, user);
+            }
             const user = await userService.findOne({ _id });
             return done(null, user);
         } catch {

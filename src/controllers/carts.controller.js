@@ -15,9 +15,11 @@ export const createCart = async (req , res) => {
     res.status(201).send({status : "success", payload : 'Carrito creado con exito'})
 }
 
-export const createAndAddProduct = async (req , res) => {
-    await cartService.createAndAdd(req.params.pid);
-    res.status(201).send({status : "success", payload : 'Carrito creado con exito'})
+export const addProduct = async (req , res) => {
+    const idCart = req.body.cart;
+    const idProducto = req.body.product
+    await cartService.addProduct(idCart , idProducto);
+    res.status(201).send({status : "success", payload : 'Producto añadido con exito'})
 }
 
 export const getCartById = async (req , res) => {
@@ -31,7 +33,7 @@ export const getCartById = async (req , res) => {
 export const addProductToCart = async (req , res) => {
     try {
         await cartService.addProduct(req.params.cid , req.params.pid)
-        res.status(200).send({status : "success", payload : "Producto agregado con exito"});
+        res.status(201).send({status : "success", payload : "Producto agregado con exito"});
     } catch (error) {
         res.status(404).send({status : "Error", error: "Carrito o producto no encontrado"})
     }
@@ -66,6 +68,16 @@ export const updateProduct = async (req , res) => {
         res.status(200).send({status : "success", payload : "Producto actualizado con exito"});
     } catch (error) {
         res.status(400).send({status : "Error", error: "Por favor ingrese solo números en la cantidad"})
+    }
+}
+
+export const endShop = async (req , res) => {
+    const idCart = req.params.cid;
+    try {
+        await cartService.purchase(idCart)
+        res.status(200).send({status : "success", payload : "Compra realizada"});
+    } catch (error) {
+        res.status(406).send({status : "Error", error: "Alguno de los productos seleccionados se encuentran fuera de stock"})
     }
 }
 

@@ -29,7 +29,7 @@ export const productos = async (req , res) => {
 }
 
 export const chat = (req , res) => {
-    res.render("chat", { title: "chat", style: "styles.css" });
+    res.render("chat", { title: "chat", user: req.session.user, style: "styles.css"});
 }
 
 export const log = (req , res) => {

@@ -210,7 +210,6 @@ h1 {
   justify-content: space-around;
 }
 .chat-container p {
-  height: 40px;
   text-align: center;
   border-bottom: 1px solid;
 }
@@ -233,12 +232,7 @@ input {
   background-color: white;
 }
 
-.product-container {
-  display: flex;
-  justify-content: center;
-}
-
-.product-container-real {
+.product-body {
   margin-top: 20px;
   display: flex;
   flex-direction: column;
@@ -363,6 +357,72 @@ a:hover {
   font-size: 25px;
   color: white;
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.products-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.products-card {
+  display: flex;
+  flex-direction: column;
+  background-color: #255c99;
+  padding: 20px;
+  border-radius: 20px;
+  margin-top: 15px;
+  text-align: center;
+  gap: 10px;
+}
+.products-card h2 {
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.products-card p {
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.products-card span {
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.products-stock {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.addToCartButton {
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 10px 40px;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  background: #262626;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  outline: none;
+}
+
+.datos {
+  display: none;
+}
+
+.endShop {
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 10px 40px;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  background: #262626;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  outline: none;
+  height: fit-content;
 }
 
 /*# sourceMappingURL=styles.css.map */

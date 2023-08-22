@@ -25,7 +25,7 @@ export const createProduct = async (req, res) => {
         res.status(201).send({status : "success", payload : "Producto agregado con exito"})
     }
     catch {
-        res.status(400).send({status : "Error", error: "El código ingresado ya se encuentra en la base de datos"})
+        res.status(400).send({status : "Error", error : "El código ingresado ya se encuentra en la base de datos"})
     }
 };
 

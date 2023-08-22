@@ -1,12 +1,16 @@
+import { TicketService } from '../../services/ticket.services.js';
 import { cartModel } from '../models/cart.model.js';
 import ProductManager from './productManager.js';
+import mongoose from 'mongoose';
 
 const productMng = new ProductManager();
+const ticketService = new TicketService();
 
 export class CartManager {
     cartsModel
     constructor () {
         this.cartsModel = cartModel;
+        this.ticketService = new TicketService;
     }
     // Metodos
     async getCarts() {
@@ -16,13 +20,6 @@ export class CartManager {
     async addCart() {
         const cart = await this.cartsModel.create([{}]);
         return cart;
-    }
-    async createAndAdd(idProducto) {
-        const cart = await this.cartsModel.create([{}]);
-        const cartId = cart[0]._id;
-        const nuevoProducto = {product : idProducto , quantity : 1}
-        const cartUpdated = await this.cartsModel.updateOne({_id : cartId},{$push : { products : nuevoProducto }})
-        return cartUpdated;
     }
     async getCartById(idCart) {
         const cartsFiltrado = await this.cartsModel.findOne({_id : idCart}).populate("products.product");
@@ -36,7 +33,7 @@ export class CartManager {
         if(!cartsFiltrado) {
             throw new Error;
         }
-        const productoPorBorrar = cartsFiltrado.products.find(e => e.product.toString() === idProducto)
+        const productoPorBorrar = cartsFiltrado.products.find(e => e.product.toString() === idProducto.toString())
         if (!productoPorBorrar) {
             throw new Error;
         }
@@ -99,6 +96,42 @@ export class CartManager {
         const cantidad = productoAgregado[0].quantity;
         const cartUpdated = await this.cartsModel.updateOne({_id : idCart , "products.product" : producto._id},{$set:{"products.$.quantity":cantidad+1}})
         return cartUpdated
+    }
+    async purchase(idCart) {
+        const carrito = await this.cartsModel.findOne({_id : idCart});
+        const productoFinal = await this.validarYActualizarStock(carrito);
+        await ticketService.create(carrito , productoFinal);
+    }
+    async validarYActualizarStock(carrito) {
+        const products = carrito.products;
+        const session = await mongoose.startSession();
+        session.startTransaction();
+        try {
+            let productosFinal = [];
+            for (const item of products) {
+                const producto = await productMng.getProductById(item.product);
+            if (!producto) {
+                console.log(`Producto con ID ${item.product} no encontrado.`);
+                continue;
+            }
+            if (producto.stock >= item.quantity) {
+            producto.stock -= item.quantity;
+            await producto.save({session});
+            productosFinal.push(item);
+            await this.deleteProduct(carrito._id , item.product);
+            } else {
+            console.log(`Stock insuficiente para ${producto.title}`);
+            }
+        }
+        await session.commitTransaction();
+        session.endSession();
+        return productosFinal;
+        } catch (error) {
+        console.error('Error al validar y actualizar el stock:', error);
+        await session.abortTransaction();
+        session.endSession();
+        throw error;
+        }
     }
 }
 

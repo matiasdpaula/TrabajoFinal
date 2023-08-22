@@ -1,4 +1,4 @@
-<div class="product-container-real">
+<div class="product-body">
     <div class="titulo">
         <h1>Tu perfil</h1>
             <div>
@@ -7,32 +7,52 @@
         <p>Email: {{user.email}}</p>
         <p>Edad: {{user.age}}</p>
         <p>Rol: {{user.role}}</p>
+        <p class="datos" id="carrito">{{user.cart}}</p>
+        <a href="/carts/{{user.cart}}"><button class="quit-button">Carrito</button></a>
         <a href="/api/sessions/logout"><button class="quit-button">Salir</button></a>
     </div>
-<table class="tab">
-        <thead>
-            <tr>
-                <td>Título</td>
-                <td>Descripción</td>
-                <td>Precio</td>
-                <td>Categoría</td>
-                <td>Stock</td>
-                <td></td>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each products}}
-                <tr>
-                    <td>{{this.title}}</td>
-                    <td>{{this.description}}</td>
-                    <td>{{this.price}}</td>
-                    <td>{{this.category}}</td>
-                    <td>{{this.stock}}</td>
-                    <td><button class="addToCartButton" id="{{this._id}}">Agregar al carrito</button></td>
-                </tr>
-            {{/each}}
-        </tbody>
-    </table>
+    <div>
+        {{#if (isAdmin user.role)}}
+        <div class="products-container">
+        {{#each products}}
+            <div class="products-card">
+                <div class="products-title">
+                    <h2>{{this.title}}</h2>
+                    <p>Descripción: {{this.description}}</p>
+                </div>
+                <div class="products-stock">
+                    <p>Categoria: {{this.category}}</p>
+                    <p>Stock: {{this.stock}}</p>
+                </div>
+                <div>
+                    <p>Precio: {{this.price}}</p>
+                </div>
+            </div>
+        {{/each}}
+        </div>
+        {{else}}
+            <div class="products-container">
+        {{#each products}}
+            <div class="products-card">
+                <div class="products-title">
+                    <h2>{{this.title}}</h2>
+                    <p>Descripción: {{this.description}}</p>
+                </div>
+                <div class="products-stock">
+                    <p>Categoria: {{this.category}}</p>
+                    <p>Stock: {{this.stock}}</p>
+                </div>
+                <div>
+                    <p>Precio: {{this.price}}</p>
+                </div>
+                <div class="products-add">
+                    <button class="addToCartButton" id="{{this._id}}">Agregar al carrito</button>
+                </div>
+            </div>
+        {{/each}}
+    </div>
+        {{/if}}
+    </div>
     <div>
         {{#if hasPrevPage}}
             <a href="/products?query={{query}}&limit={{limit}}&page={{prevPage}}&sort={{sort}}"><button class="boton">Anterior</button></a>
@@ -42,4 +62,6 @@
         {{/if}}
     </div>
 </div>
+<script src=" https://cdn.jsdelivr.net/npm/sweetalert2@11.7.16/dist/sweetalert2.all.min.js "></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script src="js/product.js"></script>

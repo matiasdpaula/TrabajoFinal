@@ -13,9 +13,6 @@ export class CartService {
     create() {
         return this.dao.addCart();
     }
-    createAndAdd(idProducto) {
-        return this.dao.createAndAdd(idProducto);
-    }
     addProduct(idCart , idProducto) {
         return this.dao.addProductToCart(idCart , idProducto)
     }
@@ -30,5 +27,8 @@ export class CartService {
     }
     updateProducts(idCart , newProducts) {
         return this.dao.updateProducts(idCart , newProducts);
+    }
+    purchase(idCart) {
+        return this.dao.purchase(idCart);
     }
 }   

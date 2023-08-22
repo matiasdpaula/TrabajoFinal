@@ -4,6 +4,7 @@ import cartsRouter from './routes/carts.router.js';
 import __dirname from './utils.js';
 import viewsRouter from './routes/views.router.js'
 import handlebars from 'express-handlebars';
+import Handlebars from 'handlebars';
 import { Server } from 'socket.io';
 import ProductManager from './dao/managers/productManager.js';
 import mongoose from 'mongoose';
@@ -74,3 +75,9 @@ socketServer.on('connection', socket=> {
     });
 });
 
+Handlebars.registerHelper("isAdmin", function(role) {
+    if(role === "Admin") {
+        return true;
+    }
+    return false;
+});
