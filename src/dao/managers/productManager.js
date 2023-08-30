@@ -1,4 +1,5 @@
 import { productModel } from "../models/product.model.js";
+import { generateProducts } from "../../utils.js";
 
 class ProductManager {
     productsModel
@@ -45,6 +46,13 @@ class ProductManager {
         }
         const productUpdated = await this.productsModel.updateOne({_id : idProducto}, dataToUpdate)
         return productUpdated;
+    }
+    async makeMockingProducts() {
+        let products = [];
+        for(let i=0; i<100; i++) {
+            products.push(generateProducts())
+        }
+        return products;
     }
     // Validaciones
     validarCampos = (title , description , price , category , code , stock) => {

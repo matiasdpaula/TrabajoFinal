@@ -19,4 +19,7 @@ export class ProductService {
     delete(id) {
         return this.dao.deleteProduct(id);
     }
+    mocking() {
+        return this.dao.makeMockingProducts();
+    }
 }   

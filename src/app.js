@@ -1,7 +1,7 @@
 import express from 'express';
 import productRouter from './routes/product.router.js';
 import cartsRouter from './routes/carts.router.js';
-import __dirname from './utils.js';
+import {__dirname} from './utils.js';
 import viewsRouter from './routes/views.router.js'
 import handlebars from 'express-handlebars';
 import Handlebars from 'handlebars';
@@ -15,6 +15,7 @@ import sessionsRouter from './routes/sessions.router.js';
 import session from 'express-session';
 import passport from 'passport';
 import initializePassport from './config/passport.config.js';
+import {errorHandler} from './utils.js'
 
 const listaProductos = new ProductManager();
 const app = express();
@@ -46,7 +47,7 @@ app.use('/api/products', productRouter);
 app.use('/api/carts', cartsRouter);
 app.use('/api/sessions', sessionsRouter);
 app.use('/',viewsRouter);
-
+app.use(errorHandler);
 socketServer.on('connection', socket=> {
     console.log("Nuevo cliente conectado");
     socket.on('delete', async (data) => {

@@ -22,10 +22,7 @@ export class CartManager {
         return cart;
     }
     async getCartById(idCart) {
-        const cartsFiltrado = await this.cartsModel.findOne({_id : idCart}).populate("products.product");
-        if(!cartsFiltrado) {
-            throw new Error;
-        }
+        const cartsFiltrado = await this.cartsModel.find({_id : idCart}).populate("products.product");
         return cartsFiltrado;
     }
     async deleteProduct(idCart, idProducto) {
