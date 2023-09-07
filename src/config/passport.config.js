@@ -33,7 +33,7 @@ const initializePassport = () => {
             return done("Error al obtener el usuario: "+error)
         }
     }));
-    passport.use('login', new LocalStrategy({usernameField:'email'}, async (email , password , done) => {
+    passport.use('login', new LocalStrategy({usernameField:'email'}, async (email , password, done) => {
         try {
             if(email === "adminCoder@coder.com" && password === "adminCod3r123") {
                 const user = {
@@ -47,7 +47,6 @@ const initializePassport = () => {
             }
             const user = await userService.findOne({email:email})
             if(!user) {
-                console.log("User doesn't exist")
                 return done(null , false);
             }
             if(!isValidPassword(user , password)) return done(null , false);

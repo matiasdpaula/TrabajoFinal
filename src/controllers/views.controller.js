@@ -68,3 +68,10 @@ export const carritos = async (req , res) => {
     carrito: cartProducts.products,
     });
 }
+
+export const loggerTest = async (req, res) => {
+    res.render("loggerTest", {
+        title : "Logger Test",
+        style: "styles.css"
+    })
+}

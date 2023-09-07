@@ -16,6 +16,7 @@ import session from 'express-session';
 import passport from 'passport';
 import initializePassport from './config/passport.config.js';
 import {errorHandler} from './utils.js'
+import { addLogger } from './config/logger.js';
 
 const listaProductos = new ProductManager();
 const app = express();
@@ -28,6 +29,7 @@ const DBConnection = mongoose.connect(process.env.MONGO, {
 app.engine('handlebars', handlebars.engine());
 app.set('views', `${__dirname}/views`);
 app.set('view engine', 'handlebars')
+app.use(addLogger)
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(express.static(__dirname+'/public'))

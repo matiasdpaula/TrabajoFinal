@@ -1,13 +1,15 @@
 import { Router } from "express";
-import { getAllProducts , getProductById , getMockingProducts , createProduct , updateProduct , deleteProduct } from "../controllers/product.controller.js";
-import { adminAccess, publicAccess} from "../utils.js";
+import { getAllProducts , getProductById , getMockingProducts , createProduct , updateProduct , deleteProduct , mockFatalError } from "../controllers/product.controller.js";
+import { adminAccess } from "../utils.js";
 
 const router = Router();
 
-router.get('/', publicAccess, getAllProducts);
-router.get('/mockingproducts', publicAccess, getMockingProducts)
-router.get('/:pid', publicAccess, getProductById);
+router.get('/', getAllProducts);
 router.post('/', adminAccess, createProduct);
+router.get('/mockingproducts', getMockingProducts)
+router.get('/fatal', mockFatalError)
+router.post('/productLoggerTest', createProduct);
+router.get('/:pid', getProductById);
 router.put('/:pid', adminAccess, updateProduct);
 router.delete('/:pid', adminAccess, deleteProduct);
 

@@ -16,6 +16,7 @@ export const passportFailRegister = async (req , res) => {
 export const login = async (req , res) => {
     if (!req.user) return res.status(400).send({ status: "error", error: "Incorrect credentials" });
     req.session.user = new UserDTO(req.user)
+    req.logger.info('Logueo correcto')
     res.send({ status: "success", payload: req.session.user, message: "¡Logueo realizado!" });
 }
 
