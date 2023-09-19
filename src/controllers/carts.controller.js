@@ -18,11 +18,16 @@ export const createCart = async (req , res) => {
     res.status(201).send({status : "success", payload : 'Carrito creado con exito'})
 }
 
-export const addProduct = async (req , res) => {
+export const addProduct = async (req, res, next) => {
+    const user = req.session.user;
     const idCart = req.body.cart;
-    const idProducto = req.body.product
-    await cartService.addProduct(idCart , idProducto);
-    res.status(201).send({status : "success", payload : 'Producto añadido con exito'})
+    const idProducto = req.body.product;
+    try {
+        await cartService.addProduct(user, idCart, idProducto);
+        res.status(201).send({status : "success", payload : 'Producto añadido con exito'})
+    } catch (error) {
+        next(new CustomError("No es posible agregar productos propios", generateNotFoundError(), EErrors.CLEARENCE_ERROR, "No es posible agregar productos propios"));
+    }
 }
 
 export const getCartById = async (req , res, next) => {
@@ -34,8 +39,11 @@ export const getCartById = async (req , res, next) => {
 }
 
 export const addProductToCart = async (req , res, next) => {
+    const user = req.session.user;
+    const idCart = req.body.cart;
+    const idProducto = req.body.product;
     try {
-        await cartService.addProduct(req.params.cid , req.params.pid)
+        await cartService.addProduct(user, idCart, idProducto)
         res.status(201).send({status : "success", payload : "Producto agregado con exito"});
     } catch (error) {
         next(new CustomError("Carrito no encontrado", generateNotFoundError(), EErrors.NOT_FOUND_ERROR, "Carrito o producto no encontrado"));

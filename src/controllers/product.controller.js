@@ -1,7 +1,7 @@
 import {ProductService} from "../services/product.services.js"
 import CustomError from "../services/errors/CustomError.js";
 import EErrors from "../services/errors/enum.js";
-import { generateNotFoundError , generateInvalidTypesError} from "../services/errors/info.js";
+import { generateNotFoundError , generateInvalidTypesError, generateClearenceError} from "../services/errors/info.js";
 
 const productService = new ProductService();
 
@@ -35,8 +35,10 @@ export const getMockingProducts = async (req, res) => {
 };
 
 export const createProduct = async (req, res, next) => {
+    const user = req.session.user;
+    const newProduct = req.body;
     try {
-        await productService.create(req.body);
+        await productService.create(user, newProduct);
         res.status(201).send({status : "success", payload : "Producto agregado con exito"})
     }
     catch {
@@ -57,13 +59,15 @@ export const updateProduct = async (req, res, next) => {
 };
 
 export const deleteProduct = async (req, res, next) => {
+    const productId = req.params.pid;
+    const user = req.session.user;
     try {
-        await productService.delete(req.params.pid)
+        await productService.delete(user, productId);
         res.send({status : "success", payload : "Producto borrado"});
     }
     catch {
         req.logger.error('Error al borrar el producto')
-        next(new CustomError("Producto no encontrado", generateNotFoundError(), EErrors.NOT_FOUND_ERROR, "Producto no encontrado"));
+        next(new CustomError("Producto no encontrado o autorización insuficiente", generateClearenceError(), EErrors.CLEARENCE_ERROR, "Producto no encontrado o autorización insuficiente"));
     }
 };
 

@@ -13,8 +13,8 @@ export class CartService {
     create() {
         return this.dao.addCart();
     }
-    addProduct(idCart , idProducto) {
-        return this.dao.addProductToCart(idCart , idProducto)
+    addProduct(user, idCart , idProducto) {
+        return this.dao.addProductToCart(user, idCart , idProducto)
     }
     deleteProduct(idCart, idProducto) {
         return this.dao.deleteProduct(idCart, idProducto);

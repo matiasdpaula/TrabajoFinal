@@ -183,30 +183,20 @@ formRegister.addEventListener('submit', e => {
         headers:{
             'Content-Type':'application/json'
         }
-    }).then(result=>result.json()).then(json=>console.log(json));
-    Toast.fire({
-        icon: 'success',
-        title: 'Registro Correcto'
-    });
+    }).then(result=>{
+        result.json()
+        if(result.status===200){
+            Toast.fire({
+                icon: 'success',
+                title: 'Registro Correcto'
+            });
+        } else {
+            Toast.fire({
+                icon: 'error',
+                title: 'Email ya registrado'
+            })
+        }}).then(json=>console.log(json));
 }})
-
-// SweetAlert
-
-const Toast = Swal.mixin({
-    toast: true,
-    position: 'top-right',
-    iconColor: 'white',
-    didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer)
-        toast.addEventListener('mouseleave', Swal.resumeTimer)
-    },
-    customClass: {
-    popup: 'colored-toast'
-    },
-    showConfirmButton: false,
-    timer: 3000,
-    timerProgressBar: true
-})
 
 // Evento Login
 

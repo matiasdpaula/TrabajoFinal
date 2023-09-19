@@ -11,8 +11,12 @@ class ProductManager {
         const listaProductos = await this.productsModel.find({},{});
         return listaProductos;
     }
-    async addProduct (newProduct) {
+    async addProduct (user, newProduct) {
         newProduct.status = true;
+        newProduct.owner = user.email;
+        if(user.email === "adminCoder@coder.com") {
+            newProduct.owner = "admin";
+        }
         if (await this.validarCodigo(newProduct.code) && this.validarCampos(
             newProduct.title,
             newProduct.description,
@@ -35,9 +39,17 @@ class ProductManager {
         }
         return product;
     }
-    async deleteProduct(idProducto) {
-        const productDeleted = await this.productsModel.deleteOne({_id : idProducto});
-        return productDeleted;
+    async deleteProduct(user, idProducto) {
+        const product = await this.productsModel.findOne({_id : idProducto});
+        if(user.email === "adminCoder@coder.com") {
+            const productDeleted = await this.productsModel.deleteOne({_id : idProducto});
+            return productDeleted;
+        }
+        if(product.owner === user.email) {
+            const productDeleted = await this.productsModel.deleteOne({_id : idProducto});
+            return productDeleted;
+        }
+        throw new Error
     }
     async updateProduct(idProducto, dataToUpdate) {
         const validarDatos = Object.values(dataToUpdate).some(e => e === "");

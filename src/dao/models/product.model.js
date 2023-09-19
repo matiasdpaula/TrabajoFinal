@@ -12,6 +12,10 @@ const productsSchema = new mongoose.Schema({
     thumbnails:Array,
     code:String,
     stock:Number,
+    owner : { 
+        type: String,
+        default: "admin" 
+    }
 })
 
 

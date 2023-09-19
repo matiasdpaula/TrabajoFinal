@@ -2,6 +2,9 @@ import { cartModel } from "../dao/models/cart.model.js";
 import { ObjectId } from "mongodb";
 import { productModel } from "../dao/models/product.model.js";
 import { PaginationParameters } from "mongoose-paginate-v2";
+import { UserService } from "../services/users.services.js";
+
+const userService = new UserService();
 
 export const productos = async (req , res) => {
     const query = req.query.query;
@@ -72,6 +75,20 @@ export const carritos = async (req , res) => {
 export const loggerTest = async (req, res) => {
     res.render("loggerTest", {
         title : "Logger Test",
+        style: "styles.css"
+    })
+}
+
+export const recover = async (req, res) => {
+    res.render("recover", {
+        title : "Recuperar cuenta",
+        style: "styles.css"
+    })
+}
+
+export const changePassword = async (req, res) => {
+    res.render("changePassword", {
+        title : "Crear contraseña",
         style: "styles.css"
     })
 }

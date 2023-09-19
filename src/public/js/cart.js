@@ -2,22 +2,6 @@ const endShop = document.getElementsByClassName("endShop")
 let carrito = window.location.pathname;
 carrito = carrito.slice(7)
 
-const Toast = Swal.mixin({
-    toast: true,
-    position: 'top-right',
-    iconColor: 'white',
-    didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer)
-        toast.addEventListener('mouseleave', Swal.resumeTimer)
-    },
-    customClass: {
-    popup: 'colored-toast'
-    },
-    showConfirmButton: false,
-    timer: 3000,
-    timerProgressBar: true
-})
-
 function clickPurchase(){
         fetch(`/api/carts/${carrito}/purchase`,{
             method:'POST',

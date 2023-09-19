@@ -10,14 +10,14 @@ export class ProductService {
     getById(id) {
         return this.dao.getProductById(id);
     }
-    create(product) {
-        return this.dao.addProduct(product);
+    create(user, newProduct) {
+        return this.dao.addProduct(user, newProduct);
     }
     update(id, product) {
         return this.dao.updateProduct(id, product);
     }
-    delete(id) {
-        return this.dao.deleteProduct(id);
+    delete(user, productId) {
+        return this.dao.deleteProduct(user, productId);
     }
     mocking() {
         return this.dao.makeMockingProducts();

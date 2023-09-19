@@ -1,6 +1,7 @@
 import express from 'express';
 import productRouter from './routes/product.router.js';
 import cartsRouter from './routes/carts.router.js';
+import usersRouter from './routes/users.router.js';
 import {__dirname} from './utils.js';
 import viewsRouter from './routes/views.router.js'
 import handlebars from 'express-handlebars';
@@ -48,6 +49,7 @@ app.use(passport.session());
 app.use('/api/products', productRouter);
 app.use('/api/carts', cartsRouter);
 app.use('/api/sessions', sessionsRouter);
+app.use('/api/users', usersRouter);
 app.use('/',viewsRouter);
 app.use(errorHandler);
 socketServer.on('connection', socket=> {

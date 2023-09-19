@@ -81,8 +81,11 @@ export class CartManager {
         const productosActualizados = await this.cartsModel.updateOne({_id : idCart, "products.product" : productId},{$set:{"products.$.quantity":productQuantity}});
         return productosActualizados;
     }
-    async addProductToCart(idCart, idProducto) {
+    async addProductToCart(user, idCart, idProducto) {
         const producto = await productMng.getProductById(idProducto)
+        if(producto.owner === user.email) {
+            throw new Error
+        }
         let cartFind = await this.cartsModel.findOne({_id : idCart, "products.product" : producto._id});
         if (!cartFind) {
             const productAdded = await this.cartsModel.updateOne({_id : idCart},{$push: {products: {product:producto, quantity:1}}});

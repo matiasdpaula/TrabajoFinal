@@ -3,6 +3,8 @@ import { dirname } from "path";
 import bcrypt from "bcrypt";
 import { faker } from '@faker-js/faker/locale/es';
 import EErrors from "./services/errors/enum.js";
+import {default as jwt} from "jsonwebtoken";
+import 'dotenv/config'
 
 const __filename = fileURLToPath(import.meta.url);
 export const __dirname = dirname(__filename);
@@ -17,7 +19,7 @@ export const privateAccess = (req, res, next) => {
 
 export const adminAccess = (req, res, next) => {
     if (!req.session.user) return res.redirect("/login");
-    if (req.session.user.role === "Admin"){
+    if (req.session.user.role === "premium" || req.session.user.role === "Admin"){
         return next();
     } return res.redirect("/login");
 }
@@ -47,7 +49,26 @@ export const errorHandler = (error, req, res, next) => {
         case EErrors.DATABASE_ERROR:
             res.status(406).send({status : "Error", error: error.message, cause: error.cause, code: error.code})
             break;
+        case EErrors.CLEARENCE_ERROR:
+            res.status(401).send({status : "Error", error: error.message, cause: error.cause, code: error.code})
+            break;
         default:
             res.send({status: 'error', error: 'Internal Server Error'});
     }
 };
+
+export const createJwt = (email) => {
+    return jwt.sign({email}, process.env.PRIVATE_KEY, { expiresIn: '1h'})
+}
+
+export const validarToken = (req, res, next) => {
+    try {
+        const token = req.params.token;
+        jwt.verify(token, process.env.PRIVATE_KEY);
+        const tokenDescifrado = jwt.decode(token)
+        req.email = tokenDescifrado.email;
+        next()
+    } catch (error) {
+        return res.redirect("/login")
+    }
+}
