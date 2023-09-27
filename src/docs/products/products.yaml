@@ -1,0 +1,335 @@
+paths:
+  /api/products:
+    get:
+      summary: Obtiene todos los productos
+      tags:
+        - Product
+      responses:
+        "200":
+          description: Los productos fueron obtenidos de forma satisfactoria.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+        "404":
+          description: Los productos no fueron encontrados
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Error'
+    post:
+      summary: Usuario premium o admin puede crear un producto
+      tags:
+        - Product
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBodies/newProduct'
+      responses:
+        "200":
+          description: Producto creado de forma satisfactoria.
+          content:
+            application/json:
+              schema:
+                type: array
+                $ref: '#/components/schemas/Success'
+        "500":
+          description: Error de creación de producto
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/products/mockingproducts:
+    get:
+      summary: Obtiene productos Mock
+      tags:
+        - Product
+      responses:
+        "200":
+          description: Productos Mock cargados con exito
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Success'
+        "500":
+          description: Error al cargar productos Mock
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Error'
+  /api/products/fatal:
+    get:
+      summary: Imita un error fatal en logger
+      tags:
+        - Product
+      responses:
+        "200":
+          description: Logger funcionando.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        "500":
+          description: Error interno
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/products/productLoggerTest:
+    get:
+      summary: Imita un error de creación de producto en logger
+      tags:
+        - Product
+      responses:
+        "200":
+          description: Logger funcionando.
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Success'
+        "500":
+          description: Error interno
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Error'
+  /api/products/{pid}:
+    get:
+      summary: Obtiene un producto especifico
+      tags:
+        - Product
+      parameters:
+      - name: pid
+        in: path
+        description: Id del producto que se desea encontrar
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Producto obtenido de forma satisfactoria.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+        "404":
+          description: Producto no encontrado
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Error'
+    put:
+      summary: Usuario admin o premium pueden actualizar un producto especifico
+      tags:
+        - Product
+      parameters:
+      - name: pid
+        in: path
+        required: true
+        description: Id del producto que se desea actualizar
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBodies/updateProduct'
+      responses:
+        "200":
+          description: Producto actualizado de forma satisfactoria.
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Success'
+        "404":
+          description: Producto no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      summary: Usuario admin o premium pueden borrar un producto especifico
+      tags:
+        - Product
+      parameters:
+      - name: pid
+        in: path
+        required: true
+        description: Id del producto que se desea borrar
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Producto borrado de forma satisfactoria.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        "404":
+          description: Producto no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id autogenerado de MongoDB
+        title:
+          type: String
+          description: Título del producto
+        description:
+          type: String
+          description: Descripción del producto
+        category:
+          type: String
+          description: Categoría del producto
+        price:
+          type: Number
+          description: Precio del producto
+        status:
+          type: Boolean
+          description: Estado del producto basado en stock
+        thumbnails:
+          type: Array
+          description: Imágenes del producto
+        code:
+          type: String
+          description: Código del producto
+        stock:
+          type: Number
+          description: Stock del producto
+        owner:
+          type: String
+          description: Dueño del producto.
+      example:
+        _id: ObjectId("650633132de478d3c62a93ce")
+        title: Producto de Prueba
+        description: Producto de Prueba ejemplo
+        category: Categoría de prueba
+        price: 500
+        status: true
+        thumbnails: []
+        code: uji745
+        stock: 50
+        owner: emailejemplo@ejemplo.com
+    Error:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Error.
+        code:
+          type: string
+          description: Código del error.
+        cause:
+          type: string
+          description: Causa del error.
+        message:
+          type: string
+          description: Mensaje
+      example:
+        name: Id no encontrado
+        code: 404
+        cause: Id no encontrado en la base de datos
+        message: El ide proporcionado no fue encontrado en la base de datos
+    Success:
+      type: object
+      properties:
+        status: success
+        payload: string
+      example:
+        status: success
+        payload: La tarea fue realizada con exito
+  requestBodies:
+    updateProduct:
+      type: object
+      properties:
+        title:
+          type: String
+          description: Título del producto
+        description:
+          type: String
+          description: Descripción del producto
+        category:
+          type: String
+          description: Categoría del producto
+        price:
+          type: Number
+          description: Precio del producto
+        status:
+          type: Boolean
+          description: Estado del producto basado en stock
+        thumbnails:
+          type: Array
+          description: Imágenes del producto
+        stock:
+          type: Number
+          description: Stock del producto
+      example:
+        title: Producto de Prueba
+        description: Producto de Prueba ejemplo
+        category: Categoría de prueba
+        price: 500
+        status: true
+        thumbnails: []
+        stock: 50
+    newProduct:
+      type: object
+      properties:
+        title:
+          type: String
+          description: Título del producto
+        description:
+          type: String
+          description: Descripción del producto
+        category:
+          type: String
+          description: Categoría del producto
+        price:
+          type: Number
+          description: Precio del producto
+        status:
+          type: Boolean
+          description: Estado del producto basado en stock
+        thumbnails:
+          type: Array
+          description: Imágenes del producto
+        code:
+          type: String
+          description: Código del producto
+        stock:
+          type: Number
+          description: Stock del producto
+        owner:
+          type: String
+          description: Dueño del producto.
+      example:
+        title: Producto de Prueba
+        description: Producto de Prueba ejemplo
+        category: Categoría de prueba
+        price: 500
+        status: true
+        thumbnails: []
+        code: uji745
+        stock: 50
+        owner: emailejemplo@ejemplo.com

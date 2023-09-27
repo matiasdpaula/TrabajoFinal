@@ -1,0 +1,426 @@
+paths:
+  /api/carts:
+    get:
+      summary: Obtiene todos los carritos
+      tags:
+        - Carrito
+      responses:
+        "200":
+          description: Los carritos fueron obtenidos de forma satisfactoria.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cart'
+        "404":
+          description: Los carritos no fueron encontrados
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      summary: Crear un carrito. Solo se utiliza al momento de crear un usuario.
+      tags:
+        - Carrito
+      responses:
+        "200":
+          description: Carrito creado con exito.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        "500":
+          description: Error al crear el carrito.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/carts/{cid}:
+    get:
+      summary: Obtiene un carrito especifico
+      tags:
+        - Carrito
+      parameters:
+      - name: cid
+        in: path
+        description: Id del carrito que se desea encontrar
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Carrito obtenido de forma satisfactoria.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        "404":
+          description: Carrito no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      summary: El usuario dueño del carrito puede actualizar multiples productos.
+      tags:
+        - Carrito
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: Id del carrito que se desea actualizar
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBodies/updateProducts'
+      responses:
+        "200":
+          description: Productos actualizados de forma satisfactoria.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        "404":
+          description: Carrito no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      summary: El usuario dueño del carrito puede vaciar el carrito
+      tags:
+        - Carrito
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: Id del carrito que se desea borrar
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Carrito vaciado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        "404":
+          description: Carrito no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/carts/{cid}/product/{pid}:
+    post:
+      summary: El usuario dueño del carrito puede agregar un producto especifico a su carrito.
+      tags:
+        - Carrito
+      parameters:
+      - name: cid
+        in: path
+        description: Id del carrito que se desea encontrar
+        required: true
+        schema:
+          type: string
+      - name: pid
+        in: path
+        description: Id del producto que se desea encontrar
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBodies/addProduct'
+      responses:
+        "200":
+          description: Producto agregado con exito.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        "404":
+          description: Carrito o producto no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      summary: El usuario dueño del carrito puede actualizar la cantidad de un producto especifico dentro del carrito
+      tags:
+        - Carrito
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: Id del carrito que se desea actualizar
+        schema:
+          type: string
+      - name: pid
+        in: path
+        description: Id del producto que se desea encontrar
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBodies/updateQuantity'
+      responses:
+        "200":
+          description: Producto actualizado de forma satisfactoria.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        "404":
+          description: Carrito o producto no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      summary: El usuario dueño del carrito puede eliminar un producto de su carrito
+      tags:
+        - Carrito
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: Id del carrito que se desea borrar
+        schema:
+          type: string
+      - name: pid
+        in: path
+        description: Id del producto que se desea encontrar
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Producto borrado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        "404":
+          description: Carrito o producto no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/carts/addToCart:
+    post:
+      summary: Endpoint que agrega productos al carrito a traves del botón de agregar productos de view router. Pronto será eliminado
+      tags:
+        - Carrito
+      parameters:
+      - name: cid
+        in: path
+        description: Id del carrito que se desea encontrar
+        required: true
+        schema:
+          type: string
+      - name: pid
+        in: path
+        description: Id del producto que se desea encontrar
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBodies/addProduct'
+      responses:
+        "200":
+          description: Producto agregado con exito.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        "404":
+          description: Carrito o producto no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/carts/:cid/purchase:
+    post:
+      summary: Endpoint que dirige al proceso de finalizar la compra.
+      tags:
+        - Carrito
+      parameters:
+      - name: cid
+        in: path
+        description: Id del carrito que se desea encontrar.
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Compra finalizada con exito.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        "500":
+          description: Error interno del servidor.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/sessions/login:
+    post:
+      summary: Ingresa y retorna una cookie de sesion
+      tags:
+        - Login
+      requestBody:
+        required: true
+        description: Un objeto JSON que contenga usuario y contraseña.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      security: []
+      responses:
+        '200':
+          description: >
+            Ingreso correcto.
+            El ID de sesión se encuentra en la cookie de nombre JSESSIONID.
+          headers: 
+            Set-Cookie:
+              schema: 
+                type: string
+                example: JSESSIONID=abcde12345; Path=/; HttpOnly
+  /api/sessions/logout:
+    get:
+      summary: Borra la sesión actual y redirije a login.
+      tags:
+        - Login
+      responses:
+        '200':
+          description: Sesión borrada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '500':
+          description: Error interno del servidor.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: JSESSIONID
+  schemas:
+    LoginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          description: email del usuario
+        password:
+          type: string
+          description: password del usuario
+      example:
+        email: adminCoder@coder.com
+        password: adminCod3r123
+    Cart:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id autogenerado de MongoDB
+        products:
+          type: Array
+          description: Contenedor de productos del carrito
+        product:
+          type: ObjectId
+          description: Id del producto agregado
+        quantity:
+          type: Number
+          description: Cantidad de producto agregado
+      example:
+        _id: "650633132de478d3c62a93ce"
+        products: [{
+          product: "650633132de478d3c62a93ce",
+          quantity: 51
+        }]
+    Error:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Error.
+        code:
+          type: string
+          description: Código del error.
+        cause:
+          type: string
+          description: Causa del error.
+        message:
+          type: string
+          description: Mensaje
+      example:
+        name: Id no encontrado
+        code: 404
+        cause: Id no encontrado en la base de datos
+        message: El ide proporcionado no fue encontrado en la base de datos
+    Success:
+      type: object
+      properties:
+        status: success
+        payload: string
+  requestBodies:
+    updateQuantity:
+      type: object
+      properties:
+        quantity:
+          type: Number
+          description: Cantidad de producto a actualizar.
+      example:
+        quantity: 40
+    addProduct:
+      type: object
+      properties:
+        cart:
+          type: string
+          description: Id del carrito a manipular.
+        product:
+          type: string
+          description: Id del producto a agregar.
+      example:
+        cart: "650633132de478d3c62a93ce"
+        product: "650633132de478d3c62a93ce"
+    updateProducts:
+      type: object
+      properties:
+        product:
+          type: ObjectId
+          description: Id del producto a agregar.
+        quantity:
+          type: Number
+          description: Cantidad de producto a actualizar.
+      example:
+        product: "650633132de478d3c62a93ce"
+        quantity: 40
+
+security:
+  - cookieAuth: []

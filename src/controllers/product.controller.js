@@ -72,5 +72,6 @@ export const deleteProduct = async (req, res, next) => {
 };
 
 export const mockFatalError = async (req, res) => {
-    req.logger.fatal('Error fatal')
+    req.logger.fatal('Error fatal');
+    res.send({status : "Success", payload : "Tarea realizada con exito"});
 }

@@ -18,6 +18,8 @@ import passport from 'passport';
 import initializePassport from './config/passport.config.js';
 import {errorHandler} from './utils.js'
 import { addLogger } from './config/logger.js';
+import swaggerJsdoc from 'swagger-jsdoc';
+import swaggerUiExpress from 'swagger-ui-express';
 
 const listaProductos = new ProductManager();
 const app = express();
@@ -86,3 +88,17 @@ Handlebars.registerHelper("isAdmin", function(role) {
     }
     return false;
 });
+
+const swaggerOptions = {
+    definition:{
+        openapi:'3.1.0',
+        info: {
+            title: `Documentación API Ecommerce`,
+            description: 'Documentación con Swagger'
+        }
+    },
+    apis:[`./src/docs/**/*.yaml`]
+}
+
+const specs = swaggerJsdoc(swaggerOptions);
+app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
