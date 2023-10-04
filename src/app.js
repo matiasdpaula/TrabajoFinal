@@ -2,6 +2,7 @@ import express from 'express';
 import productRouter from './routes/product.router.js';
 import cartsRouter from './routes/carts.router.js';
 import usersRouter from './routes/users.router.js';
+import cookieParser from 'cookie-parser';
 import {__dirname} from './utils.js';
 import viewsRouter from './routes/views.router.js'
 import handlebars from 'express-handlebars';
@@ -34,6 +35,7 @@ app.set('views', `${__dirname}/views`);
 app.set('view engine', 'handlebars')
 app.use(addLogger)
 app.use(express.json());
+app.use(cookieParser());
 app.use(express.urlencoded({extended:true}));
 app.use(express.static(__dirname+'/public'))
 app.use(session({
@@ -102,3 +104,5 @@ const swaggerOptions = {
 
 const specs = swaggerJsdoc(swaggerOptions);
 app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
+
+export default app;

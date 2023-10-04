@@ -17,14 +17,13 @@ const initializePassport = () => {
         try {
             const user = await userService.findOne({email : username});
             if(user) return done(null, false, {message: "User already exists"});
-            let carrito = await cartMng.addCart();
-            carrito = carrito[0];
+            const carrito = await cartMng.addCart();
             const newUser = {
                 first_name,
                 last_name,
                 email,
                 age,
-                password:createHash(password),
+                password: createHash(password),
                 cart: carrito._id
             }
             const result = await userService.create(newUser);

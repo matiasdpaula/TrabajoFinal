@@ -13,4 +13,7 @@ export class UserService {
     update(email, object) {
         return this.dao.update(email, object);
     }
+    deleteUser(email) {
+        return this.dao.delete(email);
+    }
 }   

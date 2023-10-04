@@ -185,7 +185,7 @@ formRegister.addEventListener('submit', e => {
         }
     }).then(result=>{
         result.json()
-        if(result.status===200){
+        if(result.status===201){
             Toast.fire({
                 icon: 'success',
                 title: 'Registro Correcto'
@@ -195,7 +195,7 @@ formRegister.addEventListener('submit', e => {
                 icon: 'error',
                 title: 'Email ya registrado'
             })
-        }}).then(json=>console.log(json));
+        }});
 }})
 
 // Evento Login

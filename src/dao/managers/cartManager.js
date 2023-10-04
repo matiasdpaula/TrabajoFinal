@@ -19,7 +19,7 @@ export class CartManager {
     }
     async addCart() {
         const cart = await this.cartsModel.create([{}]);
-        return cart;
+        return cart[0];
     }
     async getCartById(idCart) {
         const cartsFiltrado = await this.cartsModel.find({_id : idCart}).populate("products.product");
@@ -102,6 +102,10 @@ export class CartManager {
         const productoFinal = await this.validarYActualizarStock(carrito);
         await ticketService.create(carrito , productoFinal);
     }
+    async deleteCart(idCart) {
+        const carrito = await this.cartsModel.deleteOne({_id : idCart});
+        return carrito
+    };
     async validarYActualizarStock(carrito) {
         const products = carrito.products;
         const session = await mongoose.startSession();

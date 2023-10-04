@@ -16,7 +16,7 @@ export const passportGithub = async (req , res) => {
 }
 
 export const passportRegister = async (req , res) => {
-    res.send({status:"success", message: "User registered"})
+    res.status(201).send({status:"success", message: "User registered"})
 }
 
 export const passportFailRegister = async (req , res) => {
@@ -37,7 +37,7 @@ export const failLogin = async (req , res) => {
 export const logout = async (req , res) => {
     req.session.destroy(err => {
         if(err) return res.status(500).send({status:"error", error:"Couldn't logout"})
-        res.redirect('/login')
+        return res.redirect('/login');
     })
 }
 
@@ -91,6 +91,16 @@ export const changePassword = async (req, res, next) => {
         const passwordHash = {password: createHash(password)};
         const newUser = await userService.update(email, passwordHash);
         res.status(200).send({ status: "success", payload: newUser, message: "Cambio realizado" });
+    } catch (error) {
+        res.status(404).send({status : "Error", error: "Usuario no encontrado"})
+    }
+}
+
+export const deleteUser = async (req, res, next) => {
+    const email = req.body.email;
+    try {
+        const user = await userService.deleteUser(email);
+        res.status(200).send({ status: "success", payload: user, message: "Usuario borrado" });
     } catch (error) {
         res.status(404).send({status : "Error", error: "Usuario no encontrado"})
     }

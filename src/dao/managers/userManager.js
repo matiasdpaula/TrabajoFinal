@@ -1,4 +1,7 @@
 import userModel from "../models/user.model.js";
+import { CartService } from "../../services/carts.services.js";
+
+const cartService = new CartService();
 
 export class UsersManager {
     userModel
@@ -24,6 +27,13 @@ export class UsersManager {
     }
     async update(email, object) {
         const user = await this.userModel.findOneAndUpdate({email : email}, object);
+        return user;
+    }
+    async delete(email) {
+        const user = await this.userModel.findOne({email : email});
+        const carrito = user.cart;
+        await cartService.deleteCart(carrito);
+        await this.userModel.deleteOne({email : email});
         return user;
     }
 }

@@ -38,8 +38,7 @@ export const createProduct = async (req, res, next) => {
     const user = req.session.user;
     const newProduct = req.body;
     try {
-        await productService.create(user, newProduct);
-        res.status(201).send({status : "success", payload : "Producto agregado con exito"})
+        res.status(201).send({status : "success", payload : await productService.create(user, newProduct)})
     }
     catch {
         req.logger.error('Error al crear el producto')

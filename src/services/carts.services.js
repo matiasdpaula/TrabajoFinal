@@ -31,4 +31,7 @@ export class CartService {
     purchase(idCart) {
         return this.dao.purchase(idCart);
     }
+    deleteCart(idCart) {
+        return this.dao.deleteCart(idCart);
+    }
 }   
