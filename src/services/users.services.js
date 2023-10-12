@@ -16,4 +16,10 @@ export class UserService {
     deleteUser(email) {
         return this.dao.delete(email);
     }
+    updateConnection(email) {
+        return this.dao.updateConnection(email);
+    }
+    updateDocuments(idUser, files) {
+        return this.dao.updateDocuments(idUser, files);
+    }
 }   

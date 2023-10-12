@@ -5,6 +5,8 @@ import { faker } from '@faker-js/faker/locale/es';
 import EErrors from "./services/errors/enum.js";
 import {default as jwt} from "jsonwebtoken";
 import 'dotenv/config'
+import multer from "multer";
+import path from 'path';
 
 const __filename = fileURLToPath(import.meta.url);
 export const __dirname = dirname(__filename);
@@ -72,3 +74,17 @@ export const validarToken = (req, res, next) => {
         return res.redirect("/login")
     }
 }
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        const folder = file.fieldname;
+        const uploadDir = path.join(__dirname, 'public/uploads', folder);
+        cb(null, uploadDir);
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname);
+    }
+});
+
+export const upload = multer({ storage: storage });
+

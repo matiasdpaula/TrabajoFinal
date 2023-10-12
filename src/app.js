@@ -3,7 +3,7 @@ import productRouter from './routes/product.router.js';
 import cartsRouter from './routes/carts.router.js';
 import usersRouter from './routes/users.router.js';
 import cookieParser from 'cookie-parser';
-import {__dirname} from './utils.js';
+import {__dirname, errorHandler} from './utils.js';
 import viewsRouter from './routes/views.router.js'
 import handlebars from 'express-handlebars';
 import Handlebars from 'handlebars';
@@ -17,7 +17,6 @@ import sessionsRouter from './routes/sessions.router.js';
 import session from 'express-session';
 import passport from 'passport';
 import initializePassport from './config/passport.config.js';
-import {errorHandler} from './utils.js'
 import { addLogger } from './config/logger.js';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUiExpress from 'swagger-ui-express';

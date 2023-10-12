@@ -10,12 +10,14 @@ export class UsersManager {
     }
     async updateRole(idUser) {
         const userToUpdate = await this.userModel.findOne({_id : idUser})
-        if (userToUpdate.role === "user") {
+        if (userToUpdate.role === "premium") {
+            const updatedUser = await this.userModel.updateOne({_id : idUser}, {role : "user"})
+            return updatedUser
+        } else if (this.validarDocumentos(userToUpdate.documents)) {
             const updatedUser = await this.userModel.updateOne({_id : idUser}, {role : "premium"})
             return updatedUser
         }
-        const updatedUser = await this.userModel.updateOne({_id : idUser}, {role : "user"})
-        return updatedUser
+        throw new Error("No están todos los documentos cargados")
     }
     async getUser(email) {
         try {
@@ -35,5 +37,24 @@ export class UsersManager {
         await cartService.deleteCart(carrito);
         await this.userModel.deleteOne({email : email});
         return user;
+    }
+    async updateConnection(email) {
+        const fecha = new Date()
+        const user = await this.userModel.findOneAndUpdate({email : email},{last_connection : fecha})
+        return user;
+    }
+    async updateDocuments(idUser, files) {
+        const user = await this.userModel.find({_id : idUser});
+        const documents = user[0].documents;
+        const newDocuments = [...documents, ...files.map(file => ({name: file.originalname, reference: file.path}))];
+        return await this.userModel.findOneAndUpdate({_id : idUser},{documents : newDocuments})
+    }
+    // Validaciones
+    validarDocumentos(documents) {
+        const requiredDocuments = ['id', 'address', 'bankAccount'];
+        const hasAllDocuments = requiredDocuments.every(document => {
+            return documents.some(doc => doc.name.includes(document))
+        })
+        return hasAllDocuments;
     }
 }

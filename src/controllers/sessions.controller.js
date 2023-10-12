@@ -26,6 +26,8 @@ export const passportFailRegister = async (req , res) => {
 export const login = async (req , res) => {
     if (!req.user) return res.status(400).send({ status: "error", error: "Incorrect credentials" });
     req.session.user = new UserDTO(req.user)
+    const userEmail = req.session.user.email;
+    await userService.updateConnection(userEmail)
     req.logger.info('Logueo correcto')
     res.send({ status: "success", payload: req.session.user, message: "¡Logueo realizado!" });
 }
@@ -35,6 +37,8 @@ export const failLogin = async (req , res) => {
 }
 
 export const logout = async (req , res) => {
+    const userEmail = req.session.user.email;
+    await userService.updateConnection(userEmail)
     req.session.destroy(err => {
         if(err) return res.status(500).send({status:"error", error:"Couldn't logout"})
         return res.redirect('/login');
