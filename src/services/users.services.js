@@ -7,6 +7,9 @@ export class UserService {
     updateRole(idUser) {
         return this.dao.updateRole(idUser);
     }
+    getAllUsers() {
+        return this.dao.getAllUsers();
+    }
     getUser(email) {
         return this.dao.getUser(email);
     }
@@ -21,5 +24,11 @@ export class UserService {
     }
     updateDocuments(idUser, files) {
         return this.dao.updateDocuments(idUser, files);
+    }
+    deleteUsersByDate() {
+        return this.dao.deleteUsersByDate();
+    }
+    adminUpdate(idUser) {
+        return this.dao.adminUpdate(idUser);
     }
 }   

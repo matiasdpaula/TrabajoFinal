@@ -240,3 +240,30 @@ a:hover {
     width: 40%;
     margin-bottom: 10px;
 }
+
+.cart-container {
+    margin-top: 50px;
+}
+
+.productos-carrito {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.carrito-cards {
+    background-color: white;
+    border-radius: 20px;
+    padding: 15px;
+    p {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 20px;
+    }
+}
+
+.botones-carrito {
+    display: flex;
+    justify-content: right;
+    gap: 10px;
+    margin-right: 20px;
+}
+

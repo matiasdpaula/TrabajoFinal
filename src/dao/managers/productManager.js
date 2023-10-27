@@ -1,5 +1,18 @@
 import { productModel } from "../models/product.model.js";
 import { generateProducts } from "../../utils.js";
+import mailConfig from "../../config/mailConfig.js";
+import nodemailer from 'nodemailer';
+
+const configMail = {
+    service: mailConfig.mailing.service,
+    port: mailConfig.mailing.port,
+    auth: {
+        user: mailConfig.mailing.auth.user,
+        pass: mailConfig.mailing.auth.pass
+    },
+}
+
+const transport = nodemailer.createTransport(configMail);
 
 class ProductManager {
     productsModel
@@ -47,6 +60,14 @@ class ProductManager {
         }
         if(product.owner === user.email) {
             const productDeleted = await this.productsModel.deleteOne({_id : idProducto});
+            transport.sendMail({
+                from:`LocalHost <${mailConfig.mailing.auth.user}>`,
+                to: product.owner,
+                subject: 'Cuenta eliminada por inactividad',
+                html: `<h1>Hola</h1>
+                    <hr>
+                    <p>Deseamos informarte que tu producto: ${product.title} fue eliminado</p>`
+            });
             return productDeleted;
         }
         throw new Error
@@ -59,7 +80,7 @@ class ProductManager {
         const productUpdated = await this.productsModel.updateOne({_id : idProducto}, dataToUpdate)
         return productUpdated;
     }
-    async makeMockingProducts() {
+    async makeMockProducts() {
         let products = [];
         for(let i=0; i<100; i++) {
             products.push(generateProducts())

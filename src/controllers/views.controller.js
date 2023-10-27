@@ -64,12 +64,22 @@ export const carritos = async (req , res) => {
         path: "products.product",
         model: "products",
     });
-    const cartProducts = carrito.toJSON();
+    let cartProducts = carrito.toJSON();
+    cartProducts = cartProducts.products;
     res.render("cart", {
     title: "Carrito",
     style: "styles.css",
-    carrito: cartProducts.products,
+    carrito: cartProducts,
+    total: total(cartProducts)
     });
+}
+
+const total = (carrito) => {
+    let total = 0;
+    carrito.forEach(item => {
+        total += item.product.price * item.quantity
+    });
+    return total
 }
 
 export const loggerTest = async (req, res) => {
@@ -90,5 +100,15 @@ export const changePassword = async (req, res) => {
     res.render("changePassword", {
         title : "Crear contraseña",
         style: "styles.css"
+    })
+}
+
+export const users = async (req, res) => {
+    let listaUsuarios = await userService.getAllUsers();
+    listaUsuarios = JSON.parse(JSON.stringify(listaUsuarios))
+    res.render("usersList", {
+        title: "Lista de usuarios",
+        style: "styles.css",
+        usuarios: listaUsuarios 
     })
 }

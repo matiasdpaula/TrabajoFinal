@@ -99,13 +99,3 @@ export const changePassword = async (req, res, next) => {
         res.status(404).send({status : "Error", error: "Usuario no encontrado"})
     }
 }
-
-export const deleteUser = async (req, res, next) => {
-    const email = req.body.email;
-    try {
-        const user = await userService.deleteUser(email);
-        res.status(200).send({ status: "success", payload: user, message: "Usuario borrado" });
-    } catch (error) {
-        res.status(404).send({status : "Error", error: "Usuario no encontrado"})
-    }
-}

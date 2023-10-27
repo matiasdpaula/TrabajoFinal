@@ -1,0 +1,21 @@
+<div class="product-body">
+    <div>
+        <div class="products-container">
+        {{#each usuarios}}
+            <div class="products-card">
+                <p>{{this.first_name}} {{this.last_name}}</p>
+                <p>{{this.email}}</p>
+                <p>{{this.role}}</p>
+                <div>
+                    <button name="modificar-rol" class="addToCartButton" id="{{this._id}}">Modificar Rol</button>
+                    <button name="delete-user" class="addToCartButton" id="{{this.email}}">Borrar usuario</button>
+                </div>
+            </div>
+        {{/each}}
+        </div>
+    </div>
+</div>
+<script src=" https://cdn.jsdelivr.net/npm/sweetalert2@11.7.16/dist/sweetalert2.all.min.js "></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script src="/js/toast.js"></script>
+<script src="js/users.js"></script>

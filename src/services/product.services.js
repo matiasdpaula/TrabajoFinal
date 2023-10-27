@@ -20,6 +20,6 @@ export class ProductService {
         return this.dao.deleteProduct(user, productId);
     }
     mocking() {
-        return this.dao.makeMockingProducts();
+        return this.dao.makeMockProducts();
     }
 }   

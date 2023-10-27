@@ -1,28 +1,23 @@
-<div class="products-container">
-    <table class="tab">
-        <thead>
-            <tr>
-                <td>Título</td>
-                <td>Descripción</td>
-                <td>Precio</td>
-                <td>Stock</td>
-                <td>Cantidad</td>
-            </tr>
-        </thead>
-        <tbody>
+<div class="cart-container">
+    <div>
+        <div class="productos-carrito">
             {{#each carrito}}
-                <tr>
-                    <td>{{this.product.title}}</td>
-                    <td>{{this.product.description}}</td>
-                    <td>{{this.product.price}}</td>
-                    <td>{{this.product.stock}}</td>
-                    <td>{{this.quantity}}</td>
-                </tr>
+            <div class="carrito-cards">
+                <p>Nombre: {{this.product.title}}</p>
+                <p>Descripción: {{this.product.description}}</p>
+                <p id="precio">Precio: {{this.product.price}}</p>
+                <p>Stock: {{this.product.stock}}</p>
+                <p>Cantidad: {{this.quantity}}</p>
+            </div>
             {{/each}}
-        </tbody>
-    </table>
-    <button class="endShop" onclick="clickPurchase()">Terminar compra</button>
-    <button class="endShop" onclick="clickEmpty()">Vaciar Carrito</button>
+        </div>
+        <h1>Total: {{total}}</h1>
+        <div class="botones-carrito">
+            <button class="endShop" onclick="clickContinue()">Seguir comprando</button>
+            <button class="endShop" onclick="clickPurchase()">Terminar compra</button>
+            <button class="endShop" onclick="clickEmpty()">Vaciar Carrito</button>
+        </div>
+    </div>
 </div>
 <script src=" https://cdn.jsdelivr.net/npm/sweetalert2@11.7.16/dist/sweetalert2.all.min.js "></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
