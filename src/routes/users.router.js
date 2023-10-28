@@ -9,7 +9,7 @@ router.put('/adminUpdate/:uid', adminAccess, adminUpdate)
 router.delete('/deleteUser', adminAccess, deleteUser)
 router.post('/:uid/documents', upload.any(), updateDocuments);
 router.get('/', getAllUsers)
-router.delete('/', deleteUsersByDate)
+router.delete('/', adminAccess, deleteUsersByDate)
 
 
 export default router;
