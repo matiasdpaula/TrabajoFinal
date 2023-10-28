@@ -23,14 +23,14 @@ export const restrictedAccess = (req, res, next) => {
     if (!req.session.user) return res.redirect("/login");
     if (req.session.user.role === "premium" || req.session.user.role === "Admin"){
         return next();
-    } return res.redirect("/login");
+    } return res.status(401).send({status:"error", error:"Ud no posee autorización para acceder"})
 }
 
 export const adminAccess = (req, res, next) => {
     if (!req.session.user) return res.redirect("/login");
     if (req.session.user.role === "Admin"){
         return next();
-    } return res.redirect("/login");
+    } return res.status(401).send({status:"error", error:"Ud no posee autorización para acceder"})
 }
 
 export const generateProducts = () => {
