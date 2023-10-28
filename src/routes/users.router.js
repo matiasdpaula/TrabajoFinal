@@ -8,7 +8,7 @@ router.put('/premium/:uid', privateAccess, updateRole);
 router.put('/adminUpdate/:uid', adminAccess, adminUpdate)
 router.delete('/deleteUser', adminAccess, deleteUser)
 router.post('/:uid/documents', upload.any(), updateDocuments);
-router.get('/', getAllUsers)
+router.get('/', adminAccess, getAllUsers)
 router.delete('/', adminAccess, deleteUsersByDate)
 
 
