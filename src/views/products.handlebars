@@ -1,15 +1,28 @@
 <div class="product-body">
     <div class="titulo">
-        <h1>Tu perfil</h1>
-            <div>
-                <span>Nombre: {{user.first_name}} {{user.last_name}}</span>
-            </div>
-        <p>Email: {{user.email}}</p>
-        <p>Edad: {{user.age}}</p>
-        <p>Rol: {{user.role}}</p>
-        <p class="datos" id="carrito">{{user.cart}}</p>
-        <a href="/carts/{{user.cart}}"><button class="quit-button">Carrito</button></a>
-        <a href="/api/sessions/logout"><button class="quit-button">Salir</button></a>
+        {{#if (isAdmin user.role)}}
+            <h1>Tu perfil</h1>
+                <div>
+                    <span>Nombre: {{user.first_name}} {{user.last_name}}</span>
+                </div>
+            <p>Email: {{user.email}}</p>
+            <p>Edad: {{user.age}}</p>
+            <p>Rol: {{user.role}}</p>
+            <p class="datos" id="carrito">{{user.cart}}</p>
+            <a href="/users"><button class="quit-button">Lista de usuarios</button></a>
+            <a href="/api/sessions/logout"><button class="quit-button">Salir</button></a>
+        {{else}}
+            <h1>Tu perfil</h1>
+                <div>
+                    <span>Nombre: {{user.first_name}} {{user.last_name}}</span>
+                </div>
+            <p>Email: {{user.email}}</p>
+            <p>Edad: {{user.age}}</p>
+            <p>Rol: {{user.role}}</p>
+            <p class="datos" id="carrito">{{user.cart}}</p>
+            <a href="/carts/{{user.cart}}"><button class="quit-button">Carrito</button></a>
+            <a href="/api/sessions/logout"><button class="quit-button">Salir</button></a>
+        {{/if}}
     </div>
     <div>
         {{#if (isAdmin user.role)}}
