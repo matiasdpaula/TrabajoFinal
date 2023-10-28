@@ -62,7 +62,7 @@ export const deleteProduct = async (req, res, next) => {
     const user = req.session.user;
     try {
         await productService.delete(user, productId);
-        res.send({status : "success", payload : "Producto borrado"});
+        res.status(200).send({status : "success", payload : "Producto borrado"});
     }
     catch {
         req.logger.error('Error al borrar el producto')

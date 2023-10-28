@@ -27,4 +27,26 @@ document.addEventListener("click", function(event){
             }
         })
     }
+}, false);
+
+document.addEventListener("click", function(event){
+    if (event.target.className == "deleteProductButton"){
+        const idProducto = event.target.id;
+        fetch(`/api/products/${idProducto}`,{
+            method:'DELETE'
+        }).then(result=>{
+            if(result.status === 200){
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Producto borrado con exito'
+                });
+                return location.reload();
+            } else {
+                return Toast.fire({
+                    icon: 'error',
+                    title: 'Ud no posee autorización para borrar este producto'
+                })
+            }
+        })
+    }
 }, false); 

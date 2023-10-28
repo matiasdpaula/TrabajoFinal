@@ -40,6 +40,9 @@
                 <div>
                     <p>Precio: {{this.price}}</p>
                 </div>
+                <div class="products-add">
+                    <button class="deleteProductButton" id="{{this._id}}">Borrar producto</button>
+                </div>
             </div>
         {{/each}}
         </div>
@@ -59,6 +62,7 @@
                     <p>Precio: {{this.price}}</p>
                 </div>
                 <div class="products-add">
+                    <button class="deleteProductButton" id="{{this._id}}">Borrar producto</button>
                     <button class="addToCartButton" id="{{this._id}}">Agregar al carrito</button>
                 </div>
             </div>
