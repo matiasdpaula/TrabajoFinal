@@ -53,7 +53,7 @@ function clickEmpty(){
 }
 
 function clickContinue() {
-    location.href = 'http://localhost:8080/products';
+    location.href = '/products';
 }
 
 

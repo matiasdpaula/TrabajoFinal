@@ -6,6 +6,12 @@ import { UserService } from "../services/users.services.js";
 
 const userService = new UserService();
 
+const pesoArgentino = new Intl.NumberFormat('es-Ar', {
+    style: 'currency',
+    currency: 'ARS',
+    minimunFractionDigits: 2
+});
+
 export const productos = async (req , res) => {
     const query = req.query.query;
     const sort = req.query.sort;
@@ -70,7 +76,7 @@ export const carritos = async (req , res) => {
     title: "Carrito",
     style: "styles.css",
     carrito: cartProducts,
-    total: total(cartProducts)
+    total: pesoArgentino.format(total(cartProducts))
     });
 }
 
