@@ -54,16 +54,15 @@ class ProductManager {
     }
     async deleteProduct(user, idProducto) {
         const product = await this.productsModel.findOne({_id : idProducto});
-        if(user.email === "adminCoder@coder.com") {
+        if(user.email === "adminCoder@coder.com" || user.email === product.owner) {
             const productDeleted = await this.productsModel.deleteOne({_id : idProducto});
-            return productDeleted;
-        }
-        if(product.owner === user.email) {
-            const productDeleted = await this.productsModel.deleteOne({_id : idProducto});
+            if (product.owner === "admin") {
+                return productDeleted;
+            }
             transport.sendMail({
                 from:`LocalHost <${mailConfig.mailing.auth.user}>`,
                 to: product.owner,
-                subject: 'Cuenta eliminada por inactividad',
+                subject: 'Producto Eliminado',
                 html: `<h1>Hola</h1>
                     <hr>
                     <p>Deseamos informarte que tu producto: ${product.title} fue eliminado</p>`

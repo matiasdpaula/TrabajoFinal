@@ -37,12 +37,16 @@ export const failLogin = async (req , res) => {
 }
 
 export const logout = async (req , res) => {
-    const userEmail = req.session.user.email;
-    await userService.updateConnection(userEmail)
-    req.session.destroy(err => {
-        if(err) return res.status(500).send({status:"error", error:"Couldn't logout"})
-        return res.redirect('/login');
-    })
+    try {
+        const userEmail = req.session.user.email;
+        await userService.updateConnection(userEmail)
+        req.session.destroy(err => {
+            if(err) return res.status(500).send({status:"error", error:"Couldn't logout"})
+            return res.redirect('/login');
+        })
+    } catch (error) {
+        res.json({error: "No hay sesión iniciada"})
+    }
 }
 
 export const current = async (req , res) => {
